@@ -164,7 +164,6 @@ public class ServerUser extends User {
 		}		
 	}
 
-	//TODO-untested (partially covered by setAttribute tests.)
 	@Override
 	public List<AttributeRating> getAllRatedAttributes() {
 		try {
@@ -176,8 +175,6 @@ public class ServerUser extends User {
 		List<AttributeRating> list = new ArrayList<AttributeRating>();
 		return list;
 	}
-
-	
 	
 	@Override
 	public List<Recommendation> getRatedConsumables() {

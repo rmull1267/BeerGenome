@@ -1,6 +1,7 @@
 package client;
 
 import protocol.GetAllRatedAttributesMessage;
+import protocol.GetRatedConsumablesMessage;
 import protocol.LoginMessage;
 import protocol.ProtocolException;
 import protocol.SetAttributeRatingMessage;
@@ -201,8 +202,19 @@ public class ClientUser extends User {
 	
 	@Override
 	public List<Recommendation> getRatedConsumables() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Recommendation> retVal = new ArrayList<Recommendation>();
+		
+		GetRatedConsumablesMessage m = new GetRatedConsumablesMessage(this, retVal);
+		
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
+		
+		return retVal;
 	}
 	
 	@Override

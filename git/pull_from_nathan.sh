@@ -1,1 +1,1 @@
-git pull git@github.com:carthagswd/BeerGenome.git
+git pull git@github.com:carthagswd/BeerGenome.git master

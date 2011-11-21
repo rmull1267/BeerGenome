@@ -1,6 +1,7 @@
 package server;
 
 import protocol.GetAttributeMessage;
+import protocol.GetRatedConsumablesMessage;
 import protocol.ProtocolException;
 import protocol.GetAllRatedAttributesMessage;
 import protocol.LoginMessage;
@@ -67,6 +68,11 @@ public class PrefixParser {
 		else if(getPrefix(request).equals(GetAllRatedAttributesMessage.PREFIX))
 		{
 			GetAllRatedAttributesMessage m = new GetAllRatedAttributesMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(GetRatedConsumablesMessage.PREFIX))
+		{
+			GetRatedConsumablesMessage m = new GetRatedConsumablesMessage();
 			return m.generateResponse(request);
 		}
 		

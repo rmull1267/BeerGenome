@@ -14,10 +14,13 @@ import org.junit.Test;
 import core.Attribute;
 import core.AttributeRating;
 import core.LoginException;
+import core.Recommendation;
 
 import server.Server;
 import server.ServerAttribute;
+import server.ServerConsumable;
 import server.ServerException;
+import server.ServerRecommendation;
 import server.ServerUser;
 import client.Client;
 import client.ClientAttribute;
@@ -163,6 +166,43 @@ public class ClientUserWetTests {
 		if(rating != initial_rating)
 		{
 			fail("Rating and Initial Rating failed.");
+		}
+	}
+	
+	@Test
+	public void getRatedConsumables()
+	{
+		//Rate 1,1 with 3.
+		ServerUser u1 = new ServerUser(1);
+		ServerConsumable c1 = new ServerConsumable(1);
+		u1.setRecommendationRating(c1, 3);
+		ServerRecommendation scr = new ServerRecommendation(u1, c1);
+		int initialRating = scr.getInitialRating();
+		scr.setRevisedRating(initialRating+1);
+		
+		
+		
+		ClientUser u = new ClientUser(1);
+		List<Recommendation> testSubject = u.getRatedConsumables();
+		
+		if(testSubject == null || testSubject.isEmpty())
+		{
+			fail("testSubject not set properly.");
+		}
+		
+		for(Recommendation cr : testSubject)
+		{
+			if(cr.getConsumable().getConsumableId() == 1)
+			{
+				if(cr.getInitialRating() != initialRating)
+				{
+					fail("incorrect initial rating.");
+				}
+				if(cr.getRevisedRating() != initialRating + 1)
+				{
+					fail("incorrect revised rating.");
+				}
+			}
 		}
 	}
 }
