@@ -1,0 +1,19 @@
+=head1 NAME
+
+Beer Genome Project
+
+=head1 DESCRIPTION
+
+This is a final project for Carthage College's CSC 4350.
+
+The goal is a server/client application written in Java that allows users
+to track their recommendations.
+
+=back
+
+
+=head1 AUTHOR
+
+Nathan, Russ, Jason and Wojtek
+
+=cut
