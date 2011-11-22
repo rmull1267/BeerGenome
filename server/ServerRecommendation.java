@@ -40,6 +40,7 @@ public class ServerRecommendation extends Recommendation {
 		constructorHelper(user, consumable, revisedRating);
 	}
 
+	//TODO-nf-refactor throw exceptions.
 	@Override
 	protected void constructorHelper(User user, Consumable consumable, int revisedRating) {
 		Rating rating = new Rating(user, consumable);
@@ -56,6 +57,10 @@ public class ServerRecommendation extends Recommendation {
 					getRevisedRating()
 			);
 		} catch (DBAbstractionException e) {
+			this.setUserWithoutCommit(null);
+			this.setConsumableWithoutCommit(null);
+			this.setRevisedRatingWithoutCommit(0);
+			this.setInitialRatingWithoutCommit(0); 
 			e.printStackTrace();
 		}
 		

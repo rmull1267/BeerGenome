@@ -32,7 +32,7 @@ public class CreateRecommendationMessage implements ProtocolMessage {
 		sb.append(getRecommendation().getConsumable().getConsumableId());
 		sb.append(PrefixParser.DELIMITER);
 		sb.append(getRecommendation().getRevisedRating());
-		
+
 		return sb.toString();
 	}
 
@@ -45,12 +45,24 @@ public class CreateRecommendationMessage implements ProtocolMessage {
 		
 		ServerRecommendation recommendation = new ServerRecommendation(user, consumable, Integer.parseInt(parts[3]));
 		
+		//NRF: Doing this AFTER the recommendation is created so that we can see a stack trace on the server side as well as the client side.
+		if(Integer.parseInt(parts[1]) == 0 || Integer.parseInt(parts[2]) == 0)
+		{
+			return FAILURE_PREFIX;
+		}
+		
 		return SUCCESS_PREFIX + PrefixParser.DELIMITER + new Integer(recommendation.getInitialRating()).toString();
 	}
 
 	@Override
 	public void processResponse(String response) throws ProtocolException {
 		String[] parts = response.split(PrefixParser.DELIMITER);
+		
+		if(response.equals(FAILURE_PREFIX))
+		{
+			throw new ProtocolException("Server could not parse request.");
+		}
+		
 		getRecommendation().setInitialRatingWithoutCommit(Integer.parseInt(parts[1]));
 	}
 
