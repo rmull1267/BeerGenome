@@ -205,4 +205,18 @@ public class ClientUserWetTests {
 			}
 		}
 	}
+	
+	public void commit()
+	{
+		ClientUser u = new ClientUser(1);
+		
+		String initialPassword = u.getPassword();
+		
+		u.setPassword(initialPassword + "1");
+		
+		if(!u.getPassword().equals(initialPassword + "1"))
+		{
+			fail("setPassword commit failed");
+		}
+	}
 }

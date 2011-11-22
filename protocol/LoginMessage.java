@@ -76,8 +76,8 @@ public class LoginMessage implements ProtocolMessage {
 		}
 		else {
 			getUser().setUserIdPublic(Integer.parseInt(parts[1]));
-			getUser().setUsername(parts[2]);
-			getUser().setPassword(parts[3]);
+			getUser().setUsernameWithoutCommit(parts[2]);
+			getUser().setPasswordWithoutCommit(parts[3]);
 		}
 		
 	}
