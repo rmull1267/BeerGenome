@@ -2,6 +2,7 @@ package client;
 
 import java.util.List;
 
+import protocol.CreateAttributeMessage;
 import protocol.GetAttributeMessage;
 import protocol.ProtocolException;
 
@@ -20,6 +21,11 @@ public class ClientAttribute extends Attribute {
 		constructorHelper(attributeId);
 	}
 	
+	public ClientAttribute(String name)
+	{
+		constructorHelper(name);
+	}
+	
 	@Override
 	protected void constructorHelper(int attributeId) {
 		this.setAttributeId(attributeId);
@@ -36,7 +42,16 @@ public class ClientAttribute extends Attribute {
 
 	@Override
 	protected void constructorHelper(String name) {
-		// TODO Auto-generated method stub
+		setNameWithoutCommit(name);
+		CreateAttributeMessage m = new CreateAttributeMessage(this);
+		
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -56,6 +71,16 @@ public class ClientAttribute extends Attribute {
 	public void refresh() throws DBAbstractionException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	/**
+	 * public so that CreateAttributeMessage can set the ID of a newly created attribute.
+	 * @param attributeId
+	 */
+	public void setAttributeIdPublic(int attributeId)
+	{
+		this.setAttributeId(attributeId);
 	}
 
 }

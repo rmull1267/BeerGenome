@@ -32,4 +32,29 @@ public class ClientAttributeWetTests {
 			fail("Names doesn't match up.");
 		}
 	}
+	
+	@Test
+	public void createAttribute()
+	{
+		String name = UUID.randomUUID().toString();
+		ClientAttribute ca = new ClientAttribute(name);
+		
+		if(ca.getAttributeId() == 0)
+		{
+			fail("ID not set properly.");
+		}
+		
+		ServerAttribute sa = new ServerAttribute(ca.getAttributeId());
+		
+		if(!sa.getName().equals(ca.getName()))
+		{
+			//Did not set name properly on server side.
+			fail(sa.getName() + "!=" + ca.getName());
+		}
+		
+		if(sa.getAttributeId() != ca.getAttributeId())
+		{
+			fail("Did not set ID properly on create.");
+		}
+	}
 }
