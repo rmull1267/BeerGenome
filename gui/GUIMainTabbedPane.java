@@ -18,5 +18,8 @@ public class GUIMainTabbedPane extends JFrame
 		add(jtp);
 		setSize(1000, 500);
 		setVisible(true);
+		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
+	
 }

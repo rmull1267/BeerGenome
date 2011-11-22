@@ -1,13 +1,22 @@
 package server;
 
+import protocol.CreateAttributeMessage;
+import protocol.GetAllAttributesMessage;
 import protocol.GetAttributeMessage;
+import protocol.GetRatedConsumablesMessage;
 import protocol.ProtocolException;
 import protocol.GetAllRatedAttributesMessage;
 import protocol.LoginMessage;
 import protocol.RegisterMessage;
+import protocol.RenameAttributeMessage;
 import protocol.SetAttributeRatingMessage;
 import protocol.StopMessage;
 
+/**
+ * TODO-nf-refactor instead of using .PREFIX use .class.getSimpleName()
+ * @author nfulton
+ *
+ */
 public class PrefixParser {
 	//SHOULD BE A SINGLE CHARACTER IF getNumParts is to work.
 	public static final String DELIMITER = ":";
@@ -69,11 +78,31 @@ public class PrefixParser {
 			GetAllRatedAttributesMessage m = new GetAllRatedAttributesMessage();
 			return m.generateResponse(request);
 		}
+		else if(getPrefix(request).equals(GetRatedConsumablesMessage.PREFIX))
+		{
+			GetRatedConsumablesMessage m = new GetRatedConsumablesMessage();
+			return m.generateResponse(request);
+		}
 		
 		//ATTRIBUTE MESSAGES
 		else if(getPrefix(request).equals(GetAttributeMessage.PREFIX))
 		{
 			GetAttributeMessage m = new GetAttributeMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(CreateAttributeMessage.PREFIX))
+		{
+			CreateAttributeMessage m = new CreateAttributeMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(GetAllAttributesMessage.PREFIX))
+		{
+			GetAllAttributesMessage m = new GetAllAttributesMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(RenameAttributeMessage.PREFIX))
+		{
+			RenameAttributeMessage m = new RenameAttributeMessage();
 			return m.generateResponse(request);
 		}
 		

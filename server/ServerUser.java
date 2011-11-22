@@ -3,6 +3,8 @@ package server;
 import java.util.ArrayList;
 import java.util.List;
 
+import client.ClientConsumable;
+
 import core.Attribute;
 import core.AttributeRating;
 import core.Consumable;
@@ -164,7 +166,6 @@ public class ServerUser extends User {
 		}		
 	}
 
-	//TODO-untested (partially covered by setAttribute tests.)
 	@Override
 	public List<AttributeRating> getAllRatedAttributes() {
 		try {
@@ -176,8 +177,6 @@ public class ServerUser extends User {
 		List<AttributeRating> list = new ArrayList<AttributeRating>();
 		return list;
 	}
-
-	
 	
 	@Override
 	public List<Recommendation> getRatedConsumables() {
@@ -214,15 +213,15 @@ public class ServerUser extends User {
 		
 		if(!set)
 		{
-			Recommendation r = new ServerRecommendation(this, consumable, newRating);
+			new ServerRecommendation(this, consumable, newRating);
 		}		
 	}
 
 	//TODO - UNIMPLEMENTED.
 	@Override
 	public List<Consumable> getRecommendedConsumables() {
-		// TODO Auto-generated method stub
-		//TODO-nf get all consumables and order them by their ratings.
+		//TODO-nf-refactor move this into the abstract class?
+		//TODO-nf-feature get all consumables and order them by their ratings.
 		return null;
 	}
 }

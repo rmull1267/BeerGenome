@@ -1,14 +1,16 @@
 package client;
 
 import protocol.GetAllRatedAttributesMessage;
+import protocol.GetRatedConsumablesMessage;
 import protocol.LoginMessage;
 import protocol.ProtocolException;
 import protocol.SetAttributeRatingMessage;
-
+import protocol.SetPasswordMessage;
+import protocol.RegisterMessage;
 import java.util.ArrayList;
+
 import java.util.List;
 
-import protocol.RegisterMessage;
 
 import core.Attribute;
 import core.AttributeRating;
@@ -16,6 +18,7 @@ import core.Consumable;
 import core.LoginException;
 import core.Recommendation;
 import core.User;
+
 import database.DBAbstractionException;
 
 public class ClientUser extends User {
@@ -189,22 +192,52 @@ public class ClientUser extends User {
 
 	@Override
 	public void setRecommendationRating(Consumable consumable, int newRating) {
-		// TODO Auto-generated method stub
+		setRecommendationRating(consumable.getConsumableId(), newRating);
 		
 	}
 
+	//TODO-nf-tests not tested because ClientRecommendation.setRevisedRating needs to be implemented first.
 	@Override
 	public void setRecommendationRating(int consumableId, int newRating) {
-		// TODO Auto-generated method stub
+		ClientConsumable consumable = new ClientConsumable(consumableId);
+		
+		boolean set = false;
+		for(Recommendation r : getRatedConsumables())
+		{
+			if(r.getConsumable().getConsumableId() == consumableId)
+			{
+				r.setRevisedRating(newRating);
+				set = true;
+				break;
+			}
+		}
+		
+		if(!set)
+		{
+			new ClientRecommendation(this, consumable, newRating);
+		}	
 		
 	}
 	
 	@Override
 	public List<Recommendation> getRatedConsumables() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Recommendation> retVal = new ArrayList<Recommendation>();
+		
+		GetRatedConsumablesMessage m = new GetRatedConsumablesMessage(this, retVal);
+		
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
+		
+		return retVal;
 	}
 	
+	
+	//TODO-nf-refactor move into abstract class?
 	@Override
 	public List<Consumable> getRecommendedConsumables() {
 		// TODO Auto-generated method stub
@@ -213,13 +246,18 @@ public class ClientUser extends User {
 
 	@Override
 	public void commit() throws DBAbstractionException {
-		// TODO Auto-generated method stub
-		
+		SetPasswordMessage m = new SetPasswordMessage(this);
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void refresh() throws DBAbstractionException {
-		// TODO Auto-generated method stub
-		
+		throw new DBAbstractionException("Unimplemented.");
 	}
 }
