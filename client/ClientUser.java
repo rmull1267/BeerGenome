@@ -6,13 +6,11 @@ import protocol.LoginMessage;
 import protocol.ProtocolException;
 import protocol.SetAttributeRatingMessage;
 import protocol.SetPasswordMessage;
-
+import protocol.RegisterMessage;
 import java.util.ArrayList;
+
 import java.util.List;
 
-import protocol.RegisterMessage;
-import server.ServerConsumable;
-import server.ServerRecommendation;
 
 import core.Attribute;
 import core.AttributeRating;
@@ -20,6 +18,7 @@ import core.Consumable;
 import core.LoginException;
 import core.Recommendation;
 import core.User;
+
 import database.DBAbstractionException;
 
 public class ClientUser extends User {
