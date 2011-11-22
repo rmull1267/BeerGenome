@@ -1,8 +1,10 @@
 package client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import protocol.CreateAttributeMessage;
+import protocol.GetAllAttributesMessage;
 import protocol.GetAttributeMessage;
 import protocol.ProtocolException;
 
@@ -57,8 +59,18 @@ public class ClientAttribute extends Attribute {
 
 	@Override
 	public List<Attribute> getAllAttributes() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Attribute> retVal = new ArrayList<Attribute>();
+		GetAllAttributesMessage m = new GetAllAttributesMessage(retVal);
+		
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
+		
+		return retVal;
 	}
 
 	@Override
