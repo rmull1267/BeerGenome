@@ -12,11 +12,6 @@ import protocol.RenameAttributeMessage;
 import core.Attribute;
 import database.DBAbstractionException;
 
-/**
- * TODO-nf
- * @author nfulton
- *
- */
 public class ClientAttribute extends Attribute {
 
 	public ClientAttribute(int attributeId)
