@@ -12,6 +12,7 @@ import protocol.LoginMessage;
 import protocol.RegisterMessage;
 import protocol.RenameAttributeMessage;
 import protocol.SetAttributeRatingMessage;
+import protocol.SetPasswordMessage;
 import protocol.SetRecommendationsRevisedRatingMessage;
 import protocol.StopMessage;
 
@@ -84,6 +85,11 @@ public class PrefixParser {
 		else if(getPrefix(request).equals(GetRatedConsumablesMessage.PREFIX))
 		{
 			GetRatedConsumablesMessage m = new GetRatedConsumablesMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(SetPasswordMessage.PREFIX))
+		{
+			SetPasswordMessage m = new SetPasswordMessage();
 			return m.generateResponse(request);
 		}
 		

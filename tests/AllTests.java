@@ -20,7 +20,7 @@ public class AllTests {
 	public void afterAll()
 	{
 		//When we are done running all the tests, delete the test database.
-		//Aside from ensureing everything behaves properly for the right reasons,
+		//Aside from ensuring everything behaves properly for the right reasons,
 		//each time you run the tests without deleting the db an eigth of a
 		//second or so will be added.
 		//TODO-nf-test add stress tests for the db.

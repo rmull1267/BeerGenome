@@ -9,7 +9,7 @@ public abstract class User implements ORMClass {
 	
 	/* *********** Abstract methods that need to be implemented. *********** */
 	//constructor implementations
-	protected abstract void constructorHelper(int userId);
+	protected abstract void constructorHelper(int userId) throws LoginException;
 	
 	//Login logic
 	protected abstract void constructorHelper(String username, String password, Boolean newAccount) throws LoginException;

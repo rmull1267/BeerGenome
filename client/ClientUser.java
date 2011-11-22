@@ -25,7 +25,11 @@ public class ClientUser extends User {
 
 	public ClientUser(int userId)
 	{
-		constructorHelper(userId);
+		try {
+			constructorHelper(userId);
+		} catch (LoginException e) {
+			e.printStackTrace();
+		}
 	}
 	public ClientUser(String username, String password, Boolean newAccount) throws LoginException
 	{
@@ -82,20 +86,17 @@ public class ClientUser extends User {
 					throw new LoginException("Could not load from Id");
 				}
 			}
-			catch(LoginException e)
-			{
-				e.printStackTrace();
-			} catch (ClientException e) {
-				e.printStackTrace();
+			catch (ClientException e) {
+				throw new LoginException(e);
 			} catch (ProtocolException e) {
-				e.printStackTrace();
+				throw new LoginException(e);
 			}
 		}
 		
 	}
 
 	@Override
-	protected void constructorHelper(int userId)  {
+	protected void constructorHelper(int userId) throws LoginException {
 		setUserId(userId);
 		
 		LoginMessage m = new LoginMessage(this);
@@ -113,13 +114,10 @@ public class ClientUser extends User {
 				throw new LoginException("Could not load from Id");
 			}
 		}
-		catch(LoginException e)
-		{
-			e.printStackTrace();
-		} catch (ClientException e) {
-			e.printStackTrace();
+		catch (ClientException e) {
+			throw new LoginException(e);
 		} catch (ProtocolException e) {
-			e.printStackTrace();
+			throw new LoginException(e);
 		}
 		
 	}
