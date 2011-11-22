@@ -38,7 +38,7 @@ public class ServerUser extends User {
 	 * @param username
 	 * @param password
 	 * @param newAccount
-	 * @throws Exception login exception.
+	 * @throws Exception LoginException
 	 */
 	public ServerUser(String username, String password, Boolean newAccount) throws LoginException
 	{
