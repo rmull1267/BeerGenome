@@ -79,12 +79,13 @@ public class GetRatedConsumablesMessage implements ProtocolMessage {
 			int revisedRating = Integer.parseInt(parts[i+2]);
 			int initialRating = Integer.parseInt(parts[i+3]);
 			
-			this.getRecommendations().add(new ClientRecommendation(
+			ClientRecommendation r = new ClientRecommendation(
 					new ClientUser(userId),
-					new ClientConsumable(consumableId),
-					revisedRating
-				)
+					new ClientConsumable(consumableId)
 			);
+			r.setInitialRatingWithoutCommit(initialRating);
+			r.setRevisedRatingWithoutCommit(revisedRating);
+			this.getRecommendations().add(r);
 		}
 	}
 

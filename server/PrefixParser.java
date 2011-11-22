@@ -4,12 +4,15 @@ import protocol.CreateAttributeMessage;
 import protocol.GetAllAttributesMessage;
 import protocol.GetAttributeMessage;
 import protocol.GetRatedConsumablesMessage;
+import protocol.CreateRecommendationMessage;
+import protocol.GetRecommendationMessage;
 import protocol.ProtocolException;
 import protocol.GetAllRatedAttributesMessage;
 import protocol.LoginMessage;
 import protocol.RegisterMessage;
 import protocol.RenameAttributeMessage;
 import protocol.SetAttributeRatingMessage;
+import protocol.SetRecommendationsRevisedRatingMessage;
 import protocol.StopMessage;
 
 /**
@@ -54,7 +57,7 @@ public class PrefixParser {
 		return parts[0];
 	}
 	
-	//TODO-nf iterate through the 
+	//TODO-nf-refactor replace with state-strategy pattern?
 	public String getResponse(String request) throws ProtocolException
 	{
 		//USER MESSAGES
@@ -103,6 +106,26 @@ public class PrefixParser {
 		else if(getPrefix(request).equals(RenameAttributeMessage.PREFIX))
 		{
 			RenameAttributeMessage m = new RenameAttributeMessage();
+			return m.generateResponse(request);
+		}
+		
+		
+		//RECOMMENDATION MESSAGES
+		else if(getPrefix(request).equals(CreateRecommendationMessage.PREFIX))
+		{
+			CreateRecommendationMessage m = new CreateRecommendationMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(GetRecommendationMessage.PREFIX))
+		{
+			GetRecommendationMessage m = new GetRecommendationMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(SetRecommendationsRevisedRatingMessage.PREFIX))
+		{
+			SetRecommendationsRevisedRatingMessage m = 
+				new SetRecommendationsRevisedRatingMessage();
+			
 			return m.generateResponse(request);
 		}
 		

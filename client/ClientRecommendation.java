@@ -1,5 +1,9 @@
 package client;
 
+import protocol.CreateRecommendationMessage;
+import protocol.GetRecommendationMessage;
+import protocol.ProtocolException;
+import protocol.SetRecommendationsRevisedRatingMessage;
 import core.Consumable;
 import core.Recommendation;
 import core.User;
@@ -13,38 +17,63 @@ import database.DBAbstractionException;
 public class ClientRecommendation extends Recommendation {
 
 	public ClientRecommendation(ClientUser user, ClientConsumable consumable) {
-		setUserWithoutCommit(user);
-		setConsumableWithoutCommit(consumable);
+		constructorHelper(user, consumable);
 	}
 	
 	public ClientRecommendation(ClientUser user, ClientConsumable consumable, int revisedRating) {
-		setUserWithoutCommit(user);
-		setConsumableWithoutCommit(consumable);
-		setRevisedRating(revisedRating);
+		constructorHelper(user, consumable, revisedRating);
 	}
 	
 	@Override
 	protected void constructorHelper(User user, Consumable consumable) {
-		// TODO Auto-generated method stub
+		setUserWithoutCommit(user);
+		setConsumableWithoutCommit(consumable);
 		
+		GetRecommendationMessage m = new GetRecommendationMessage(this);
+		
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	protected void constructorHelper(User user, Consumable consumable,
-			int revisedRating) {
-		// TODO Auto-generated method stub
+	protected void constructorHelper(User user, Consumable consumable, int revisedRating) {
+		setUserWithoutCommit(user);
+		setConsumableWithoutCommit(consumable);
+		setRevisedRating(revisedRating);
 		
+		CreateRecommendationMessage m = new CreateRecommendationMessage(this);
+		
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void commit() throws DBAbstractionException {
-		// TODO Auto-generated method stub
+		SetRecommendationsRevisedRatingMessage m = 
+			new SetRecommendationsRevisedRatingMessage(this);
 		
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void refresh() throws DBAbstractionException {
-		// TODO Auto-generated method stub
+		throw new DBAbstractionException("unimplemented");
 		
 	}
 

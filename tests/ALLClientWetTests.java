@@ -16,8 +16,9 @@ import database.SQLDatabase;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	ClientUserWetTests.class, 		//Nathan Fulton
-	ClientAttributeWetTests.class	//Nathan Fulton
+	ClientUserWetTests.class, 			//Nathan Fulton
+	ClientAttributeWetTests.class,		//Nathan Fulton
+	ClientRecommendationWetTests.class //Nathan Fulton
 })
 public class ALLClientWetTests {
 static Server s;
