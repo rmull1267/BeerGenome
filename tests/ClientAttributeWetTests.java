@@ -89,4 +89,20 @@ public class ClientAttributeWetTests {
 			}
 		}
 	}
+	
+	@Test
+	public void commit()
+	{
+		String name = UUID.randomUUID().toString();
+		ClientAttribute ca = new ClientAttribute(name);
+		
+		ca.setName(name + "1");
+		
+		ServerAttribute sa = new ServerAttribute(ca.getAttributeId());
+		
+		if(!sa.getName().equals(ca.getName()))
+		{
+			fail("could not set names.");
+		}
+	}
 }

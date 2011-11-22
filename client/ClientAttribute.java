@@ -7,6 +7,7 @@ import protocol.CreateAttributeMessage;
 import protocol.GetAllAttributesMessage;
 import protocol.GetAttributeMessage;
 import protocol.ProtocolException;
+import protocol.RenameAttributeMessage;
 
 import core.Attribute;
 import database.DBAbstractionException;
@@ -75,14 +76,20 @@ public class ClientAttribute extends Attribute {
 
 	@Override
 	public void commit() throws DBAbstractionException {
-		// TODO Auto-generated method stub
+		RenameAttributeMessage m = new RenameAttributeMessage(this);
 		
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void refresh() throws DBAbstractionException {
-		// TODO Auto-generated method stub
-		
+		throw new DBAbstractionException("unimplemented.");
 	}
 	
 	

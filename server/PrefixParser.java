@@ -8,6 +8,7 @@ import protocol.ProtocolException;
 import protocol.GetAllRatedAttributesMessage;
 import protocol.LoginMessage;
 import protocol.RegisterMessage;
+import protocol.RenameAttributeMessage;
 import protocol.SetAttributeRatingMessage;
 import protocol.StopMessage;
 
@@ -97,6 +98,11 @@ public class PrefixParser {
 		else if(getPrefix(request).equals(GetAllAttributesMessage.PREFIX))
 		{
 			GetAllAttributesMessage m = new GetAllAttributesMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(RenameAttributeMessage.PREFIX))
+		{
+			RenameAttributeMessage m = new RenameAttributeMessage();
 			return m.generateResponse(request);
 		}
 		
