@@ -19,7 +19,7 @@ public class Rating {
 	
 	public int getInitialRating()
 	{
-		//TODO-nf the recommendation algorithm.
+		//TODO-nf-feature the recommendation algorithm.
 		return 0;
 	}
 

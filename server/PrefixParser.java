@@ -9,6 +9,11 @@ import protocol.RegisterMessage;
 import protocol.SetAttributeRatingMessage;
 import protocol.StopMessage;
 
+/**
+ * TODO-nf-refactor instead of using .PREFIX use .class.getSimpleName()
+ * @author nfulton
+ *
+ */
 public class PrefixParser {
 	//SHOULD BE A SINGLE CHARACTER IF getNumParts is to work.
 	public static final String DELIMITER = ":";

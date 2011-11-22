@@ -10,4 +10,9 @@ public class DBAbstractionException extends Exception {
 	{
 		
 	}
+
+	public DBAbstractionException(String string)
+	{
+		super(string);
+	}
 }

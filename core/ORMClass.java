@@ -3,7 +3,9 @@ package core;
 import database.DBAbstractionException;
 
 /**
- * An ORMClass is a class that represents a row in a database.
+ * TODO-nf-refactor : Change DBAbstractionException to ProxyException or something in implementing classes.
+ * TODO-nf-refactor : rename to DataSourceProxy
+ * @author nfulton
  *
  */
 public interface ORMClass {

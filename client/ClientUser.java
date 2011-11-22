@@ -5,11 +5,14 @@ import protocol.GetRatedConsumablesMessage;
 import protocol.LoginMessage;
 import protocol.ProtocolException;
 import protocol.SetAttributeRatingMessage;
+import protocol.SetPasswordMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import protocol.RegisterMessage;
+import server.ServerConsumable;
+import server.ServerRecommendation;
 
 import core.Attribute;
 import core.AttributeRating;
@@ -190,13 +193,30 @@ public class ClientUser extends User {
 
 	@Override
 	public void setRecommendationRating(Consumable consumable, int newRating) {
-		// TODO Auto-generated method stub
+		setRecommendationRating(consumable.getConsumableId(), newRating);
 		
 	}
 
+	//TODO-nf-tests not tested because ClientRecommendation.setRevisedRating needs to be implemented first.
 	@Override
 	public void setRecommendationRating(int consumableId, int newRating) {
-		// TODO Auto-generated method stub
+		ClientConsumable consumable = new ClientConsumable(consumableId);
+		
+		boolean set = false;
+		for(Recommendation r : getRatedConsumables())
+		{
+			if(r.getConsumable().getConsumableId() == consumableId)
+			{
+				r.setRevisedRating(newRating);
+				set = true;
+				break;
+			}
+		}
+		
+		if(!set)
+		{
+			new ClientRecommendation(this, consumable, newRating);
+		}	
 		
 	}
 	
@@ -217,6 +237,8 @@ public class ClientUser extends User {
 		return retVal;
 	}
 	
+	
+	//TODO-nf-refactor move into abstract class?
 	@Override
 	public List<Consumable> getRecommendedConsumables() {
 		// TODO Auto-generated method stub
@@ -225,13 +247,18 @@ public class ClientUser extends User {
 
 	@Override
 	public void commit() throws DBAbstractionException {
-		// TODO Auto-generated method stub
-		
+		SetPasswordMessage m = new SetPasswordMessage(this);
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void refresh() throws DBAbstractionException {
-		// TODO Auto-generated method stub
-		
+		throw new DBAbstractionException("Unimplemented.");
 	}
 }
