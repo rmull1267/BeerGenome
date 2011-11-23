@@ -23,9 +23,14 @@ public class ClientConsumable extends Consumable
 		constructorHelper(consumableId);
 	}
 	
-	public ClientConsumable(String user, String type)
+	public ClientConsumable(String user, String type) throws ClientException
 	{
 		constructorHelper(user, type);
+		
+		if(getConsumableId() == 0)
+		{
+			throw new ClientException("consumableid not set.");
+		}
 	}
 	
 	@Override
@@ -34,12 +39,13 @@ public class ClientConsumable extends Consumable
 		this.setConsumableId(consumableId);
 		GetConsumableMessage m = new GetConsumableMessage(this);
 		
-		try
-		{
+		try {
 			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
-		}
-		catch(Exception e)
-		{
+		} catch (ProtocolException e) {
+			this.setConsumableId(0);
+			e.printStackTrace();
+		} catch (ClientException e) {
+			this.setConsumableId(0);
 			e.printStackTrace();
 		}
 	}
@@ -57,7 +63,7 @@ public class ClientConsumable extends Consumable
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			this.setConsumableId(0);
 		}
 	}
 	

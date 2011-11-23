@@ -28,6 +28,17 @@ public abstract class User implements ORMClass {
 	public abstract List<Consumable> getRecommendedConsumables();
 	
 	
+	/* *********** IMPLEMENTED METHODS *********** */
+	public Recommendation getRecommendation(Consumable c) throws CoreException 
+	{
+		for(Recommendation r : this.getRatedConsumables())
+		{
+			if(r.getConsumable().getConsumableId() == c.getConsumableId())
+				return r;
+		}
+		throw new CoreException("That consumable has not beed rated by this user.");
+	}
+	
 	/* *********** GETTERS AND SETTERS *********** */
 	//getters and setters.
 	protected void setUserId(int userId) {

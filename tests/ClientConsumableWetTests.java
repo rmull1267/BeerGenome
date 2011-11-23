@@ -11,6 +11,7 @@ import core.Consumable;
 
 import server.ServerConsumable;
 import client.ClientConsumable;
+import client.ClientException;
 
 public class ClientConsumableWetTests
 {
@@ -42,7 +43,12 @@ public class ClientConsumableWetTests
 		String name = UUID.randomUUID().toString();
 		String type = UUID.randomUUID().toString();
 		
-		ClientConsumable cc = new ClientConsumable(name, type);
+		ClientConsumable cc = null;
+		try {
+			cc = new ClientConsumable(name, type);
+		} catch (ClientException e) {
+			fail("could not create.");
+		}
 		ServerConsumable sc = new ServerConsumable(name, type);
 		
 		if(! cc.getName().equals(sc.getName()))
@@ -64,7 +70,12 @@ public class ClientConsumableWetTests
 		String newName = name + "new";
 		String newType = type + "new";
 		
-		ClientConsumable cc = new ClientConsumable(name, type);
+		ClientConsumable cc = null;
+		try {
+			cc = new ClientConsumable(name, type);
+		} catch (ClientException e) {
+			fail("Could not create");
+		}
 		cc.setName(newName);
 		cc.setType(newType);
 		
@@ -86,7 +97,12 @@ public class ClientConsumableWetTests
 		String name = UUID.randomUUID().toString();
 		String type = "type";
 
-		ClientConsumable cc = new ClientConsumable(name,type);
+		ClientConsumable cc = null;
+		try {
+			cc = new ClientConsumable(name,type);
+		} catch (ClientException e) {
+			fail("could not create");
+		}
 		
 		List<Consumable> clist = cc.getAllConsumables();
 		
