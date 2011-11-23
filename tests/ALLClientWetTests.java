@@ -18,7 +18,8 @@ import database.SQLDatabase;
 @Suite.SuiteClasses({
 	ClientUserWetTests.class, 			//Nathan Fulton
 	ClientAttributeWetTests.class,		//Nathan Fulton
-	ClientRecommendationWetTests.class //Nathan Fulton
+	ClientRecommendationWetTests.class, //Nathan Fulton
+	ClientConsumableWetTests.class		//JRC
 })
 public class ALLClientWetTests {
 static Server s;
