@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-
 import core.Attribute;
 import core.AttributeRating;
 import core.Consumable;
