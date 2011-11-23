@@ -212,12 +212,4 @@ public class ServerUser extends User {
 			new ServerRecommendation(this, consumable, newRating);
 		}		
 	}
-
-	//TODO - UNIMPLEMENTED.
-	@Override
-	public List<Consumable> getRecommendedConsumables() {
-		//TODO-nf-refactor move this into the abstract class?
-		//TODO-nf-feature get all consumables and order them by their ratings.
-		return null;
-	}
 }

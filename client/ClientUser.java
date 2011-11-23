@@ -232,14 +232,6 @@ public class ClientUser extends User {
 		
 		return retVal;
 	}
-	
-	
-	//TODO-nf-refactor move into abstract class?
-	@Override
-	public List<Consumable> getRecommendedConsumables() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void commit() throws DBAbstractionException {

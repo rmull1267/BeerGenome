@@ -25,8 +25,6 @@ public abstract class User implements ORMClass {
 	public abstract void setRecommendationRating(Consumable consumable, int newRating);
 	public abstract void setRecommendationRating(int consumableId, int newRating);
 	public abstract List<Recommendation> getRatedConsumables();
-	public abstract List<Consumable> getRecommendedConsumables();
-	
 	
 	/* *********** IMPLEMENTED METHODS *********** */
 	public Recommendation getRecommendation(Consumable c) throws CoreException 
@@ -38,6 +36,36 @@ public abstract class User implements ORMClass {
 		}
 		throw new CoreException("That consumable has not beed rated by this user.");
 	}
+	
+	//TODO-nf-feature
+	public List<Consumable> getRecommendedConsumables(Consumable anyConsumable)
+	{
+		List<Consumable> allConsumables = anyConsumable.getAllConsumables();
+		
+		//Remove all rated consumables from allConsumables
+		//TODO will removing during the loop cause problems?
+		List<Recommendation> ratedConsumables = this.getRatedConsumables();
+		int size =allConsumables.size();
+		for(int i = 0 ; i < size; i++)
+		{
+			for(Recommendation r : ratedConsumables)
+			{
+				if(r.getConsumable().getConsumableId() == allConsumables.get(i).getConsumableId())
+				{
+					allConsumables.remove(i);
+					size--; //TODO ?
+				}
+			}
+		}
+		
+		//Sort allConsumables on the items' ratings.
+		//Example of how to get the initial rating:
+		//Rating r = new Rating(this, allConsumables.get(something));
+		//int initialRating = r.getInitialRating();
+		
+		return allConsumables;
+	}
+	
 	
 	/* *********** GETTERS AND SETTERS *********** */
 	//getters and setters.
