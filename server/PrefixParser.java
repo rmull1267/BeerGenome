@@ -1,8 +1,10 @@
 package server;
 
 import protocol.CreateAttributeMessage;
+import protocol.CreateConsumableMessage;
 import protocol.GetAllAttributesMessage;
 import protocol.GetAttributeMessage;
+import protocol.GetConsumableMessage;
 import protocol.GetRatedConsumablesMessage;
 import protocol.CreateRecommendationMessage;
 import protocol.GetRecommendationMessage;
@@ -132,6 +134,21 @@ public class PrefixParser {
 			SetRecommendationsRevisedRatingMessage m = 
 				new SetRecommendationsRevisedRatingMessage();
 			
+			return m.generateResponse(request);
+		}
+		
+		/*
+		 * JRC:
+		 * CONSUMABLE MESSAGES
+		 */
+		else if(getPrefix(request).equals(CreateConsumableMessage.PREFIX))
+		{
+			CreateConsumableMessage m = new CreateConsumableMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(GetConsumableMessage.PREFIX))
+		{
+			GetConsumableMessage m = new GetConsumableMessage();
 			return m.generateResponse(request);
 		}
 		
