@@ -1,5 +1,6 @@
 import database.SQLDatabase;
 import server.Server;
+import server.ServerException;
 
 public class beergenomeserver {
 
@@ -8,6 +9,10 @@ public class beergenomeserver {
 		SQLDatabase.getInstance("BeerGenomeDatabase.db");
 		Server s = new Server(2332);
 		s.setLoggerEnabled(true);
-		s.run();
+		try {
+			s.startServer();
+		} catch (ServerException e) {
+			e.printStackTrace();
+		}
 	}
 }

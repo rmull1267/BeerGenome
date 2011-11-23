@@ -1,0 +1,4 @@
+This folder contains builds for various tagged points in the repository.
+
+To run any JAR in the build, type:
+java -jar filename
