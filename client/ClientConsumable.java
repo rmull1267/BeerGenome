@@ -83,7 +83,7 @@ public class ClientConsumable extends Consumable
 	@Override
 	public void refresh() throws DBAbstractionException
 	{
-		throw new DBAbstractionException("Unimplemented.");
+		constructorHelper(this.getConsumableId());
 	}
 
 	@Override

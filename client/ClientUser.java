@@ -255,6 +255,13 @@ public class ClientUser extends User {
 
 	@Override
 	public void refresh() throws DBAbstractionException {
-		throw new DBAbstractionException("Unimplemented.");
+		try
+		{
+			constructorHelper(this.getUserId());
+		}
+		catch(LoginException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

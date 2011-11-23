@@ -71,10 +71,12 @@ public class ClientRecommendation extends Recommendation {
 		}
 	}
 
+	/*
+	 * JRC: Not sure if I did this one the right way.  If there's a problem with refresh, assume it's my fault.
+	 */
 	@Override
 	public void refresh() throws DBAbstractionException {
-		throw new DBAbstractionException("unimplemented");
-		
+		constructorHelper(this.getUser(), this.getConsumable(), this.getRevisedRating());
 	}
 
 }

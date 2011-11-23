@@ -84,7 +84,7 @@ public class ClientAttribute extends Attribute {
 
 	@Override
 	public void refresh() throws DBAbstractionException {
-		throw new DBAbstractionException("unimplemented.");
+		constructorHelper(this.getAttributeId());
 	}
 	
 	
