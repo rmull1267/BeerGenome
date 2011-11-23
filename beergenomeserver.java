@@ -7,6 +7,7 @@ public class beergenomeserver {
 	{
 		SQLDatabase.getInstance("BeerGenomeDatabase.db");
 		Server s = new Server(2332);
+		s.setLoggerEnabled(true);
 		s.run();
 	}
 }

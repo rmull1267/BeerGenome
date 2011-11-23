@@ -25,10 +25,12 @@ public class Server implements Runnable {
 	private int port;
 	
 	private Thread listener;
+	private boolean loggerEnabled;
 	
 	public Server(int port)
 	{
 		setPort(port);
+		setLoggerEnabled(false);
 	}
 	
 	@Override
@@ -67,10 +69,12 @@ public class Server implements Runnable {
 				{
 					request = request + "\n" + inFromClient.readLine();
 				}
+				if(isLoggerEnabled()) System.out.println(request);
 	
 				//get a response
 				String response = "Invalid Request!";
 				response = PrefixParser.getinstance().getResponse(request);
+				if(isLoggerEnabled()) System.out.println("\t" + response);
 	            
 	            //write the result back to the client
 	            outToClient.writeBytes(response + "\n");
@@ -154,6 +158,14 @@ public class Server implements Runnable {
 
 	private Thread getListener() {
 		return listener;
+	}
+
+	public void setLoggerEnabled(boolean loggerEnabled) {
+		this.loggerEnabled = loggerEnabled;
+	}
+
+	private boolean isLoggerEnabled() {
+		return loggerEnabled;
 	}
 
 }
