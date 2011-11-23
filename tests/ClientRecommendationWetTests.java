@@ -21,6 +21,7 @@ public class ClientRecommendationWetTests {
 	static ServerConsumable create_c = new ServerConsumable(consumableName, "type");
 	
 	
+	
 	static ClientUser create_cu = new ClientUser(create_u.getUserId());
 	static ClientConsumable create_cc = new ClientConsumable(create_c.getConsumableId());
 	static ClientRecommendation create_r = new ClientRecommendation(create_cu, create_cc, 5);
@@ -28,8 +29,21 @@ public class ClientRecommendationWetTests {
 	static ServerRecommendation create_sr = new ServerRecommendation(create_u,create_c);
 	
 	@Test
+	public void dbInsertion()
+	{
+		if(create_sr.getUser() == null)
+		{
+			fail("DBAbstractionException in db load");
+		}
+		if(create_r.getUser().getUserId() == 0)
+		{
+			fail("DBAbstractionException in db insertion");
+		}
+	}
+	@Test
 	public void createConsumabeMatch()
 	{
+		
 		if(create_sr.getConsumable().getConsumableId() != create_r.getConsumable().getConsumableId())
 			fail("Consumables don't match.");
 	}
@@ -49,7 +63,15 @@ public class ClientRecommendationWetTests {
 	public void createRatingMatch()
 	{
 		if(create_sr.getRevisedRating() != create_r.getRevisedRating())
-			fail("revised ratings don't match.");
+		{
+			StringBuilder message = new StringBuilder();
+			message.append("Revised ratings don't match.");
+			message.append(create_sr.getRevisedRating());
+			message.append("!=");
+			message.append(create_r.getRevisedRating());
+			
+			fail(message.toString());
+		}
 	}
 	@Test
 	public void createUserIdCorrect()
@@ -88,17 +110,51 @@ public class ClientRecommendationWetTests {
 	@Test
 	public void commit()
 	{
-		int initialRevised = create_r.getRevisedRating();
+		String name = UUID.randomUUID().toString();
 		
-		create_r.setRevisedRating(initialRevised+1);
+		ClientUser c_user = new ClientUser(create_u.getUserId());
 		
-		ServerRecommendation commit = new ServerRecommendation(create_u,create_c);
+		ServerConsumable s_consumable = new ServerConsumable(name, "type");
+		ClientConsumable c_consumable = new ClientConsumable(s_consumable.getConsumableId());		
+		
+		if(c_consumable.getConsumableId() == 0)
+		{
+			fail("Consumable id is 0");
+		}
+		
+		ClientRecommendation cr = new ClientRecommendation(c_user, c_consumable, 5);
+		
+		
+		ServerUser s_user = new ServerUser(create_u.getUserId());
+		
+		ServerRecommendation sr = new ServerRecommendation(s_user, s_consumable);
+		
+		if(sr.getUser() == null)
+		{
+			fail("SQL Exception happened");
+		}
+		if(cr.getUser().getUserId() == 0)
+		{
+			fail("SQLException happened during set from client");
+		}
+		
+		int initialRevised = cr.getRevisedRating();
+		
+		cr.setRevisedRating(initialRevised+1);
+		
+		ServerRecommendation commit = new ServerRecommendation(s_user,s_consumable);
 		
 		if(commit.getRevisedRating() != initialRevised+1)
 		{
-			fail("Failed to set on server side");
+			StringBuilder sb = new StringBuilder();
+			sb.append("Failed to set on server side:");
+			sb.append(commit.getRevisedRating());
+			sb.append("!=");
+			sb.append(initialRevised+1);
+			
+			fail(sb.toString());
 		}
-		if(create_r.getRevisedRating() != initialRevised+1)
+		if(cr.getRevisedRating() != initialRevised+1)
 		{
 			fail("Failed to update the client object");
 		}

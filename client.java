@@ -1,4 +1,5 @@
 
+import core.LoginException;
 import server.Server;
 import server.ServerException;
 import client.Client;
@@ -25,7 +26,8 @@ public class client {
 		}
 		
 
-		ClientUser u = new ClientUser(2);
+		ClientUser u = null;
+		u = new ClientUser(2);
 		System.out.println(u.getPassword());
 		
 		try {

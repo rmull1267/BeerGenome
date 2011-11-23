@@ -9,6 +9,7 @@ import client.ClientConsumable;
 import client.ClientRecommendation;
 import client.ClientUser;
 
+import core.LoginException;
 import core.Recommendation;
 
 public class GetRatedConsumablesMessage implements ProtocolMessage {
@@ -79,10 +80,12 @@ public class GetRatedConsumablesMessage implements ProtocolMessage {
 			int revisedRating = Integer.parseInt(parts[i+2]);
 			int initialRating = Integer.parseInt(parts[i+3]);
 			
-			ClientRecommendation r = new ClientRecommendation(
+			ClientRecommendation r = null;
+			r = new ClientRecommendation(
 					new ClientUser(userId),
 					new ClientConsumable(consumableId)
 			);
+			
 			r.setInitialRatingWithoutCommit(initialRating);
 			r.setRevisedRatingWithoutCommit(revisedRating);
 			this.getRecommendations().add(r);
