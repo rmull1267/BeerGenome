@@ -3,6 +3,7 @@ package server;
 import protocol.CreateAttributeMessage;
 import protocol.CreateConsumableMessage;
 import protocol.GetAllAttributesMessage;
+import protocol.GetAllConsumablesMessage;
 import protocol.GetAttributeMessage;
 import protocol.GetConsumableMessage;
 import protocol.GetRatedConsumablesMessage;
@@ -155,6 +156,11 @@ public class PrefixParser {
 		else if(getPrefix(request).equals(SetNameAndTypeOnConsumableMessage.PREFIX)) //NRF
 		{
 			SetNameAndTypeOnConsumableMessage m = new SetNameAndTypeOnConsumableMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(GetAllConsumablesMessage.PREFIX)) //NRF
+		{
+			GetAllConsumablesMessage m = new GetAllConsumablesMessage();
 			return m.generateResponse(request);
 		}
 		

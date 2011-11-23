@@ -1,8 +1,10 @@
 package client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import protocol.CreateConsumableMessage;
+import protocol.GetAllConsumablesMessage;
 import protocol.GetConsumableMessage;
 import protocol.ProtocolException;
 import protocol.SetNameAndTypeOnConsumableMessage;
@@ -81,8 +83,18 @@ public class ClientConsumable extends Consumable
 	@Override
 	public List<Consumable> getAllConsumables()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		List<Consumable> list = new ArrayList<Consumable>();
+		
+		GetAllConsumablesMessage m = new GetAllConsumablesMessage(list);
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 	
 	public void setID(int id)
