@@ -52,4 +52,28 @@ public class ClientConsumableWetTests
 			fail("Types don't match.");
 		}
 	}
+	
+	@Test
+	public void commit()
+	{
+		String name = UUID.randomUUID().toString();
+		String type = "type";
+		String newName = name + "new";
+		String newType = type + "new";
+		
+		ClientConsumable cc = new ClientConsumable(name, type);
+		cc.setName(newName);
+		cc.setType(newType);
+		
+		ServerConsumable sc = new ServerConsumable(cc.getConsumableId());
+		
+		if(!sc.getName().equals(cc.getName()))
+		{
+			fail("names don't match.");
+		}
+		if(!sc.getType().equals(cc.getType()))
+		{
+			fail("types don't match.");
+		}
+	}
 }

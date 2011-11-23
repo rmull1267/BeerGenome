@@ -14,6 +14,7 @@ import protocol.LoginMessage;
 import protocol.RegisterMessage;
 import protocol.RenameAttributeMessage;
 import protocol.SetAttributeRatingMessage;
+import protocol.SetNameAndTypeOnConsumableMessage;
 import protocol.SetPasswordMessage;
 import protocol.SetRecommendationsRevisedRatingMessage;
 import protocol.StopMessage;
@@ -149,6 +150,11 @@ public class PrefixParser {
 		else if(getPrefix(request).equals(GetConsumableMessage.PREFIX))
 		{
 			GetConsumableMessage m = new GetConsumableMessage();
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(SetNameAndTypeOnConsumableMessage.PREFIX)) //NRF
+		{
+			SetNameAndTypeOnConsumableMessage m = new SetNameAndTypeOnConsumableMessage();
 			return m.generateResponse(request);
 		}
 		

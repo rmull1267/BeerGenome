@@ -4,6 +4,8 @@ import java.util.List;
 
 import protocol.CreateConsumableMessage;
 import protocol.GetConsumableMessage;
+import protocol.ProtocolException;
+import protocol.SetNameAndTypeOnConsumableMessage;
 import core.Consumable;
 import database.DBAbstractionException;
 
@@ -60,13 +62,20 @@ public class ClientConsumable extends Consumable
 	@Override
 	public void commit() throws DBAbstractionException
 	{
-		// TODO Auto-generated method stub	
+		SetNameAndTypeOnConsumableMessage m = new SetNameAndTypeOnConsumableMessage(this);
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			throw new DBAbstractionException(e);
+		} catch (ClientException e) {
+			throw new DBAbstractionException(e);
+		}
 	}
 
 	@Override
 	public void refresh() throws DBAbstractionException
 	{
-		// TODO Auto-generated method stub	
+		throw new DBAbstractionException("Unimplemented.");
 	}
 
 	@Override
