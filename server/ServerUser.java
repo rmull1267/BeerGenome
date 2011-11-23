@@ -142,27 +142,23 @@ public class ServerUser extends User {
 
 	@Override
 	public void setAttributeRating(int attributeId, int newRating) {
-		try
+		for(AttributeRating a : this.getAllRatedAttributes())
 		{
-			SQLUserAttribute.getInstance().addAtrributeRating(getUserId(), attributeId, newRating);
+			if(a.getAttribute().getAttributeId() == attributeId)
+			{
+				try {
+					SQLUserAttribute.getInstance().editAtrributeRating(getUserId(), attributeId, newRating);
+				} catch (DBAbstractionException e) {
+					e.printStackTrace();
+				}
+				return;
+			}
 		}
-		//Note: This exception is triggered if the userid,attributeid combination is not unique. If that is
-		//the case, we want to edit the attribute rating instead of adding it.
-		catch(DBAbstractionException e)
-		{
-			System.err.println("runQuery error mentioned above happened in setAttributeRating and is " +
-					"handled. See ServerUser.setAttributeRating(int,int).");
-			try
-			{
-				SQLUserAttribute.getInstance().editAtrributeRating(getUserId(), attributeId, newRating);
-			}
-			//And this is a read database problem.
-			catch(DBAbstractionException realException)
-			{
-				System.err.println("There are two errors -- one with edit and one with add. Shown in that order.");
-				realException.printStackTrace();
-				e.printStackTrace();
-			}
+		
+		try {
+			SQLUserAttribute.getInstance().addAtrributeRating(getUserId(), attributeId, newRating);
+		} catch (DBAbstractionException e) {
+			e.printStackTrace();
 		}		
 	}
 
