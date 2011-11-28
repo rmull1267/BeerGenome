@@ -4,7 +4,7 @@ Beer Genome Project
 
 =head1 DESCRIPTION
 
-This is a final project for Carthage College's CSC 4350.
+This is a final project for Carthage College's CSC 4350. 
 
 The goal is a server/client application written in Java that allows users
 to get recommendations for new beers based on previous preferences.
