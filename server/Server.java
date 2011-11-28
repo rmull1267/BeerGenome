@@ -12,6 +12,8 @@ import protocol.StopMessage;
 
 import client.Client;
 import client.ClientException;
+import database.DBAbstractionException;
+import database.SQLDatabase;
 
 /**
  * You can actually have multiple servers running, but if you try to run them on the same port
@@ -81,11 +83,21 @@ public class Server implements Runnable {
 	
 	            //close the socket
 	            serverSocket.close();
+	            
+	            //Additionally, if the logger is enabled we are
+	            //in production mode so go ahead and do a commit
+	            //to the database.
+	            if(isLoggerEnabled())
+	            {
+	            	SQLDatabase.getInstance().refresh();
+	            }
         	}
         	catch (IOException e) {
         		e.printStackTrace();
         		setListener(null);
 			} catch (protocol.ProtocolException e) {
+				e.printStackTrace();
+			} catch (DBAbstractionException e) {
 				e.printStackTrace();
 			}
         }
