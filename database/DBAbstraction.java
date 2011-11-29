@@ -11,6 +11,10 @@ import core.Recommendation;
 import server.ServerAttribute;
 
 public interface DBAbstraction {
+	/* ************* close and refresh *********************** */
+	void close() throws DBAbstractionException;
+	void refresh() throws DBAbstractionException;
+	
 	/* ************* General Tools *********************** */
 	public ResultSet runResult(String query) throws DBAbstractionException;
 	public void runQuery(String query) throws DBAbstractionException;
@@ -36,7 +40,6 @@ public interface DBAbstraction {
 	public String getPassword(int userId) throws DBAbstractionException;
 	public void setUsername(int userId, String name) throws DBAbstractionException;
 	public void setPassword(int userId, String password) throws DBAbstractionException;
-	void close() throws DBAbstractionException;
 	
 	
 	/* ************* Attribute Information ************* */

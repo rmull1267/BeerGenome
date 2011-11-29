@@ -90,7 +90,7 @@ public class SQLDatabase implements DBAbstraction {
 				e.printStackTrace();
 			}
 		}
-		
+
 		instance = new SQLDatabase(filename);
 		return instance;
 	}
@@ -197,6 +197,19 @@ public class SQLDatabase implements DBAbstraction {
     	}
     }
 	
+    @Override
+	public void refresh() throws DBAbstractionException {
+		if(instance != null)
+		{
+			try {
+				instance.close();
+			} catch (DBAbstractionException e) {
+				e.printStackTrace();
+			}
+			instance = getInstance(getFilename());
+		}	
+		
+	}
 	
 	
     /* **************************** QUERY HELPER FUNCTIONS **************************** */
@@ -426,4 +439,5 @@ public class SQLDatabase implements DBAbstraction {
 	throws DBAbstractionException {
 		return SQLRecommendation.getInstance().getRevisedRating(userId, consumableId);
 	}
+
 }
