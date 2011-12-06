@@ -1,3 +1,4 @@
+import gui.GUIMainTabbedPane;
 import gui.GUISimple;
 
 import java.io.BufferedReader;
@@ -34,16 +35,18 @@ public class clifrontendwserver {
 	
 	public static void main(String[] args) throws ClientException, ServerException
 	{
-		SQLDatabase.getInstance("BeerGenomeDatabase.db");
+		SQLDatabase.getInstance("test.db");
 		s = new Server(2332);
 		s.startServer();
 		
 		Client.initializeClient(2332, "127.0.0.1");
 		
-		GUISimple.s = s;
-		while(true)
-		{
-			GUISimple.menu();
-		}
+		//GUISimple.s = s;
+		//while(true)
+		//{			
+			//GUISimple.menu();
+		//}
+		
+		GUIMainTabbedPane menu = new GUIMainTabbedPane();
 	}
 }
