@@ -33,7 +33,7 @@ public class SQLConsumable implements SQLTable {
 	
 	public List<Consumable> search(String phrase) throws DBAbstractionException
 	{
-		ResultSet rs = SQLDatabase.getInstance().runResult("SELECT * FROM Consumable WHERE name LIKE '" + phrase + "' OR type LIKE '" + phrase + "'");
+		ResultSet rs = SQLDatabase.getInstance().runResult("SELECT * FROM Consumable WHERE name LIKE '%" + phrase + "%' OR type LIKE '%" + phrase + "%'");
 		
 		List<Consumable> ret = new ArrayList<Consumable>();
 		try
