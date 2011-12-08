@@ -8,21 +8,36 @@ import client.ClientUser;
 
 public class GUIMainTabbedPane extends JFrame
 {
+	public GUIMyConsumables myConsumables;
+	public GUIMyAttributes myAttributes;
+	private GUISearch mySearch;
+	private GUIRecommendations myRecommendations;
+	
 	private static ClientUser user;
 	
 	public GUIMainTabbedPane()
 	{
 		JTabbedPane jtp = new JTabbedPane();
 		
-		jtp.add("My Profile", new GUIMyProfile(user));
-		jtp.add("My Consumables", new GUIMyConsumables(user));
-		jtp.add("My Attributes", new GUIMyAttributes(user));
-		jtp.add("Search", new GUISearch(user));
-		jtp.add("Recommendations", new GUIRecommendations(user));
+		initializeComponents();
+		
+		jtp.add("My Profile", new GUIMyProfile(this));
+		jtp.add("My Consumables", myConsumables);
+		jtp.add("My Attributes", myAttributes);
+		jtp.add("Search", mySearch);
+		jtp.add("Recommendations", myRecommendations);
 		
 		add(jtp);
 		setSize(450, 350);
 		setMaximumSize(new Dimension(450,350));
 		setVisible(true);
+	}
+	
+	private void initializeComponents()
+	{
+		myConsumables = new GUIMyConsumables();
+		myAttributes = new GUIMyAttributes();
+		mySearch = new GUISearch();
+		myRecommendations = new GUIRecommendations();
 	}
 }

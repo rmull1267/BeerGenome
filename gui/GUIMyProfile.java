@@ -23,11 +23,14 @@ import client.ClientUser;
  */
 public class GUIMyProfile extends javax.swing.JPanel {
 
-	private ClientUser user;
+	private GUIMainTabbedPane mainTabbedPane;
+	
     /** Creates new form GUIMyProfile */
-    public GUIMyProfile(ClientUser user) 
+    public GUIMyProfile(GUIMainTabbedPane tabbedPane) 
     {
         initComponents();
+        
+        mainTabbedPane = tabbedPane;
     }
     //********************************************
     public void login(boolean isNewAccount)
@@ -37,12 +40,23 @@ public class GUIMyProfile extends javax.swing.JPanel {
     	
     	try 
     	{
-			user = new ClientUser(username, password, isNewAccount);
+			DataAbstraction.getInstance().setUser(new ClientUser(username, password, isNewAccount));
 		} 
     	catch (LoginException e) 
     	{
-			e.printStackTrace();
+			//e.printStackTrace();
+    		if(isNewAccount == true)
+    		{
+    			JOptionPane.showMessageDialog(null, "Sorry mate, someone is using that name. Get a new one.");
+    		}
+    		else
+    		{
+    			JOptionPane.showMessageDialog(null, "Hey, you definitely need a valid password.");
+    		}
 		}
+    	
+    	mainTabbedPane.myAttributes.populateAttributes();
+    	mainTabbedPane.myConsumables.populateConsumables();
     }
     //********************************************
 

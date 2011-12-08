@@ -1,11 +1,21 @@
 package gui;
 
-import client.ClientUser;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
+import client.ClientConsumable;
+import client.ClientUser;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
+import core.AttributeRating;
+import core.Consumable;
 
 /*
  * GUISearch.java
@@ -19,10 +29,25 @@ import client.ClientUser;
 public class GUISearch extends javax.swing.JPanel {
 
     /** Creates new form GUISearch */
-    public GUISearch(ClientUser user) 
+    public GUISearch() 
     {
         initComponents();
     }
+    
+    //********************************************
+    public List<Consumable> search(String searchPhrase)
+    {
+    	ClientConsumable c = new ClientConsumable(1);	
+    	return c.search(searchPhrase);
+    }
+    
+    public Vector<String> getSearchResults()
+    {
+    	Vector<String> retVec = new Vector<String>();
+    	
+    	return retVec;
+    }
+    //********************************************
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -40,13 +65,51 @@ public class GUISearch extends javax.swing.JPanel {
         ratingLabel = new javax.swing.JLabel();
         listScrollPane = new javax.swing.JScrollPane();
         resultsList = new javax.swing.JList();
+        addToConsumablesButton = new javax.swing.JButton();
 
+        setPreferredSize(new java.awt.Dimension(400, 300));
+
+        
+        /*
+         * loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) 
+            {
+                login(false);
+                JOptionPane.showMessageDialog(null, "Login Successful");
+            }
+        });
+         */
+        
         searchButton.setText("Search");
+        searchButton.addActionListener(new ActionListener()
+        {
+        	public void actionPerformed(ActionEvent e)
+        	{
+        		if(e.getSource() == searchButton)
+        		{
+        			List<Consumable> results = search(searchTextField.getText());
+        			
+        			final Vector<String> resultsAsStrings = new Vector<String>();
+        			for(Consumable c : results)
+        			{
+        				resultsAsStrings.add(c.getName());
+        			}
+        			
+        			resultsList.setModel(new javax.swing.AbstractListModel() {
+        	        	Vector<String> strings = resultsAsStrings;
+        	        	public int getSize() { return strings.size(); }
+        	        	public Object getElementAt(int i) { return strings.get(i); }
+        	        });
+        		}
+        	}
+        });
+        
 
         ratingSlider.setMajorTickSpacing(1);
         ratingSlider.setMaximum(5);
         ratingSlider.setPaintLabels(true);
         ratingSlider.setPaintTicks(true);
+        ratingSlider.setSnapToTicks(true);
 
         setRatingButton.setText("Set Rating");
 
@@ -55,9 +118,9 @@ public class GUISearch extends javax.swing.JPanel {
         listScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         resultsList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+            Vector<String> strings = getSearchResults();
+            public int getSize() { return strings.size(); }
+            public Object getElementAt(int i) { return strings.get(i); }
         });
         resultsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -66,21 +129,25 @@ public class GUISearch extends javax.swing.JPanel {
         });
         listScrollPane.setViewportView(resultsList);
 
+        addToConsumablesButton.setText("Add To myConsumables");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(searchButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchButton))
+                    .addComponent(listScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addToConsumablesButton))
                 .addContainerGap(152, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(27, 27, 27)
-                    .addComponent(listScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGap(172, 172, 172)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ratingSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -91,24 +158,24 @@ public class GUISearch extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchButton)
-                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(266, Short.MAX_VALUE))
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton))
+                .addGap(18, 18, 18)
+                .addComponent(listScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addToConsumablesButton)
+                .addGap(41, 41, 41))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(71, 71, 71)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(listScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(38, 38, 38)
-                            .addComponent(ratingLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(ratingSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(setRatingButton)))
-                    .addContainerGap(71, Short.MAX_VALUE)))
+                    .addGap(109, 109, 109)
+                    .addComponent(ratingLabel)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(ratingSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(setRatingButton)
+                    .addContainerGap(97, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -117,6 +184,7 @@ private void resultsListValueChanged(javax.swing.event.ListSelectionEvent evt) {
 }//GEN-LAST:event_resultsListValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addToConsumablesButton;
     private javax.swing.JScrollPane listScrollPane;
     private javax.swing.JLabel ratingLabel;
     private javax.swing.JSlider ratingSlider;

@@ -1,5 +1,7 @@
 package core;
 
+import database.DBAbstractionException;
+
 /**
  * Note that unlike many of the classes in core, AttributeRating is NOT an ORM class.
  * @author nfulton

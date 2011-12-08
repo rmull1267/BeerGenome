@@ -1,6 +1,9 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import core.Attribute;
@@ -26,11 +29,11 @@ import client.ClientUser;
  */
 public class GUIMyAttributes extends javax.swing.JPanel {
 
-	private ClientUser user;
-    private ArrayList< AttributeRating > listOfAttributes;
-    
+	private List<AttributeRating> attributes;
+	
     /** Creates new form GUIMyAttributes */
-    public GUIMyAttributes(ClientUser user) {
+    public GUIMyAttributes() 
+    {
         initComponents();
     }
 
@@ -39,13 +42,24 @@ public class GUIMyAttributes extends javax.swing.JPanel {
     {
     	Vector<String> attributes = new Vector<String>();
     	
-    	for(AttributeRating ar: user.getAllRatedAttributes())
+    	
+    	setAttributes(DataAbstraction.getInstance().getUser().getAllRatedAttributes());
+    	
+    	for(AttributeRating ar: getAttributes())
     	{
     		attributes.add(ar.getAttribute().getName());
-    		listOfAttributes.add(ar);
     	}
     	
     	return attributes;
+    }
+    
+    public void populateAttributes()
+    {
+    	  attributesList.setModel(new javax.swing.AbstractListModel() {
+              Vector<String> strings = getRatedAttributes();
+              public int getSize() { return strings.size(); }
+              public Object getElementAt(int i) { return strings.get(i); }
+          });
     }
     //********************************************
     /** This method is called from within the constructor to
@@ -67,11 +81,11 @@ public class GUIMyAttributes extends javax.swing.JPanel {
 
         listScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        attributesList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+//        attributesList.setModel(new javax.swing.AbstractListModel() {
+//            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+//            public int getSize() { return strings.length; }
+//            public Object getElementAt(int i) { return strings[i]; }
+//        });
         attributesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 attributesListValueChanged(evt);
@@ -87,6 +101,22 @@ public class GUIMyAttributes extends javax.swing.JPanel {
         ratingSlider.setPaintTicks(true);
 
         setRatingButton.setText("Set Rating");
+        setRatingButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == setRatingButton)
+				{
+					int rating = ratingSlider.getValue();
+					
+					
+					AttributeRating selectedAttributeRating = getAttributes().get(attributesList.getSelectedIndex());
+					
+					selectedAttributeRating.setRating(rating);
+					DataAbstraction.getInstance().getUser().setAttributeRating(selectedAttributeRating.getAttribute(), rating);
+					
+				}
+			}
+        	
+        });
 
         attributesLabel.setText("My Attributes");
 
@@ -132,11 +162,26 @@ public class GUIMyAttributes extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-private void attributesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_attributesListValueChanged
-// TODO add your handling code here:
-}//GEN-LAST:event_attributesListValueChanged
+	private void attributesListValueChanged(javax.swing.event.ListSelectionEvent e) 
+	{
+		AttributeRating a = DataAbstraction.getInstance().getAttributeAtIndex(attributesList.getSelectedIndex());
+		
+		ratingSlider.setValue(a.getRating());
+	}
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+
+
+	public void setAttributes(List<AttributeRating> attributes) {
+		this.attributes = attributes;
+	}
+
+	public List<AttributeRating> getAttributes() {
+		return attributes;
+	}
+
+
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel attributesLabel;
     private javax.swing.JList attributesList;
     private javax.swing.JSeparator jSeparator1;

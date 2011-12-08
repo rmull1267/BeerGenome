@@ -35,7 +35,7 @@ public class clifrontendwserver {
 	
 	public static void main(String[] args) throws ClientException, ServerException
 	{
-		SQLDatabase.getInstance("test.db");
+		SQLDatabase.getInstance("russell.db");
 		s = new Server(2332);
 		s.startServer();
 		

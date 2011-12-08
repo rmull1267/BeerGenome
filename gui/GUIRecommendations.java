@@ -19,7 +19,7 @@ import client.ClientUser;
 public class GUIRecommendations extends javax.swing.JPanel {
 
     /** Creates new form GUIRecommendations */
-    public GUIRecommendations(ClientUser user) 
+    public GUIRecommendations() 
     {
         initComponents();
     }
