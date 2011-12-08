@@ -23,28 +23,36 @@ import client.ClientUser;
  *
  * @author Russell Mull
  */
-public class GUIMyConsumables extends javax.swing.JPanel {
-
-	private static ClientUser user;
+public class GUIMyConsumables extends javax.swing.JPanel 
+{
 	
     /** Creates new form GUIMyConsumables */
-    public GUIMyConsumables(ClientUser user) 
+    public GUIMyConsumables() 
     {
         initComponents();
     }
     
     //********************************************
-    public Vector<String> getAllConsumables()
+    public Vector<String> getUserRatedConsumables()
     {
     	Vector<String> consumables = new Vector<String>();
     	
-    	ClientConsumable tempCC = new ClientConsumable(1);
-    	for(Recommendation r: user.getRatedConsumables())
+    	for(Recommendation r: DataAbstraction.getInstance().getUserRatedConsumables())
     	{
     		consumables.add(r.getConsumable().getName());
     	}
     	
     	return consumables;
+    }
+    
+    public void populateConsumables()
+    {
+    	//TODO adding stuff to list happens here.
+        consumablesList.setModel(new javax.swing.AbstractListModel() {
+        	Vector<String> strings = getUserRatedConsumables();
+        	public int getSize() { return strings.size(); }
+        	public Object getElementAt(int i) { return strings.get(i); }
+        });
     }
     //********************************************
     /** This method is called from within the constructor to
@@ -65,12 +73,12 @@ public class GUIMyConsumables extends javax.swing.JPanel {
 
         listScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        //TODO adding stuff to list happens here.
-        consumablesList.setModel(new javax.swing.AbstractListModel() {
-        	Vector<String> strings = getAllConsumables();
-        	public int getSize() { return strings.size(); }
-        	public Object getElementAt(int i) { return strings.get(i); }
-        });
+//        //TODO adding stuff to list happens here.
+//        consumablesList.setModel(new javax.swing.AbstractListModel() {
+//        	Vector<String> strings = getAllConsumables();
+//        	public int getSize() { return strings.size(); }
+//        	public Object getElementAt(int i) { return strings.get(i); }
+//        });
         consumablesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 consumablesListValueChanged(evt);

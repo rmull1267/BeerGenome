@@ -3,6 +3,7 @@ package gui;
 import java.util.List;
 
 import core.AttributeRating;
+import core.Recommendation;
 
 import client.ClientUser;
 
@@ -10,14 +11,14 @@ public class DataAbstraction
 {
 	private ClientUser user;
 	
-	private DataAbstraction instance;
+	private static DataAbstraction instance;
 	
 	private DataAbstraction()
 	{
 		
 	}
 	
-	public DataAbstraction getInstance()
+	public static DataAbstraction getInstance()
 	{
 		if(instance == null)
 		{
@@ -41,5 +42,15 @@ public class DataAbstraction
 	public List< AttributeRating > getUserRatedAttributes()
 	{
 		return user.getAllRatedAttributes();
+	}
+	
+	public AttributeRating getAttributeAtIndex(int index)
+	{
+		return getUserRatedAttributes().get(index);
+	}
+	
+	public List< Recommendation > getUserRatedConsumables()
+	{
+		return user.getRatedConsumables();
 	}
 }
