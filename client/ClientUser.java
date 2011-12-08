@@ -199,6 +199,7 @@ public class ClientUser extends User {
 	public void setRecommendationRating(int consumableId, int newRating) {
 		ClientConsumable consumable = new ClientConsumable(consumableId);
 		
+		//Work through all of the existing rated consumalbes to see if this is laready rated.
 		boolean set = false;
 		for(Recommendation r : getRatedConsumables())
 		{
@@ -210,6 +211,7 @@ public class ClientUser extends User {
 			}
 		}
 		
+		//if not already rated, then create a new rating.
 		if(!set)
 		{
 			new ClientRecommendation(this, consumable, newRating);

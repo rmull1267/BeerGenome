@@ -1,7 +1,11 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
 
+import core.AttributeRating;
 import core.Consumable;
 import core.LoginException;
 import core.Recommendation;
@@ -26,6 +30,8 @@ import client.ClientUser;
 public class GUIMyConsumables extends javax.swing.JPanel 
 {
 	
+	private List<Recommendation> ratedConsumables;
+	
     /** Creates new form GUIMyConsumables */
     public GUIMyConsumables() 
     {
@@ -35,10 +41,17 @@ public class GUIMyConsumables extends javax.swing.JPanel
     //********************************************
     public Vector<String> getUserRatedConsumables()
     {
+    	setRatedConsumables(DataAbstraction.getInstance().getUser().getRatedConsumables());
+    	
     	Vector<String> consumables = new Vector<String>();
+<<<<<<< HEAD
 
     
     	for(Recommendation r: DataAbstraction.getInstance().getUserRatedConsumables())
+=======
+    	
+    	for(Recommendation r : getRatedConsumables())
+>>>>>>> 56bfa903e75b05da3e3ae050313a8026820145d8
     	{
     		consumables.add(r.getConsumable().getName());
     	}
@@ -56,6 +69,22 @@ public class GUIMyConsumables extends javax.swing.JPanel
         	public Object getElementAt(int i) { return strings.get(i); }
         });
     }
+    
+    public Recommendation getSelectedConsumable()
+    {
+    	Recommendation retVal = null;
+    	try
+    	{
+    		retVal = getRatedConsumables().get(consumablesList.getSelectedIndex());
+    	}
+    	catch(Exception e)
+    	{
+    		//Do nothing. Apparently this is A-OK.
+    	}
+    	
+    	return retVal;
+    }
+    
     //********************************************
     /** This method is called from within the constructor to
      * initialize the form.
@@ -73,6 +102,7 @@ public class GUIMyConsumables extends javax.swing.JPanel
         setRatingButton = new javax.swing.JButton();
         consumablesLabel = new javax.swing.JLabel();
 
+        
         listScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 //        //TODO adding stuff to list happens here.
@@ -83,6 +113,7 @@ public class GUIMyConsumables extends javax.swing.JPanel
 //        });
         consumablesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+            	if(evt.getSource() == consumablesList)
                 consumablesListValueChanged(evt);
             }
         });
@@ -96,6 +127,18 @@ public class GUIMyConsumables extends javax.swing.JPanel
         ratingLabel.setText("Rating:");
 
         setRatingButton.setText("Set Rating");
+        setRatingButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == setRatingButton)
+				{
+					int rating = ratingSlider.getValue();
+					Recommendation selectedConsumableRating = getRatedConsumables().get(consumablesList.getSelectedIndex());
+					selectedConsumableRating.setRevisedRating(rating);
+					
+					//DataAbstraction.getInstance().getMainPane().mySearch.updateSearch();
+				}
+			}	
+        });
 
         consumablesLabel.setText("My Consumables");
 
@@ -139,10 +182,25 @@ public class GUIMyConsumables extends javax.swing.JPanel
     //TODO list selections happen here.
 	private void consumablesListValueChanged(javax.swing.event.ListSelectionEvent evt) 
 	{
-	
+		Recommendation r = this.getSelectedConsumable();
+		if(r != null && ratingSlider != null)
+		{
+			ratingSlider.setValue(r.getRevisedRating());
+		}
+		
+		//AttributeRating a = DataAbstraction.getInstance().getAttributeAtIndex(attributesList.getSelectedIndex());
+		//ratingSlider.setValue(a.getRating());
 	}
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    public void setRatedConsumables(List<Recommendation> ratedConsumables) {
+		this.ratedConsumables = ratedConsumables;
+	}
+
+	public List<Recommendation> getRatedConsumables() {
+		return ratedConsumables;
+	}
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel consumablesLabel;
     private javax.swing.JList consumablesList;
     private javax.swing.JScrollPane listScrollPane;
