@@ -38,15 +38,11 @@ public class clifrontendwserver {
 		SQLDatabase.getInstance("russell.db");
 		s = new Server(2332);
 		s.startServer();
+		//s.setLoggerEnabled(true);
 		
 		Client.initializeClient(2332, "127.0.0.1");
-		
-		//GUISimple.s = s;
-		//while(true)
-		//{			
-			//GUISimple.menu();
-		//}
-		
+
 		GUIMainTabbedPane menu = new GUIMainTabbedPane();
+
 	}
 }

@@ -11,6 +11,8 @@ public class DataAbstraction
 {
 	private ClientUser user;
 	
+	private GUIMainTabbedPane mainPane;
+	
 	private static DataAbstraction instance;
 	
 	private DataAbstraction()
@@ -52,5 +54,13 @@ public class DataAbstraction
 	public List< Recommendation > getUserRatedConsumables()
 	{
 		return user.getRatedConsumables();
+	}
+
+	public void setMainPane(GUIMainTabbedPane mainPane) {
+		this.mainPane = mainPane;
+	}
+
+	public GUIMainTabbedPane getMainPane() {
+		return mainPane;
 	}
 }

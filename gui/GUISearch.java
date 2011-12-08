@@ -8,6 +8,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import client.ClientConsumable;
+import client.ClientRecommendation;
 import client.ClientUser;
 /*
  * To change this template, choose Tools | Templates
@@ -16,6 +17,8 @@ import client.ClientUser;
 
 import core.AttributeRating;
 import core.Consumable;
+import core.Rating;
+import core.Recommendation;
 
 /*
  * GUISearch.java
@@ -28,6 +31,11 @@ import core.Consumable;
  */
 public class GUISearch extends javax.swing.JPanel {
 
+	private List<Consumable> consumablesFromSearch;
+	private List<Recommendation> allRecommendations;
+	private final Vector<String> resultsAsStrings  = new Vector<String>();;
+	
+	
     /** Creates new form GUISearch */
     public GUISearch() 
     {
@@ -49,6 +57,35 @@ public class GUISearch extends javax.swing.JPanel {
     }
     //********************************************
 
+    public void updateSearch()
+    {
+    	String searchPhrase = searchTextField.getText();
+    	
+    	if(searchPhrase == null || searchTextField.getText().equals(""))
+    	{
+    		return;
+    	}
+    	
+    	consumablesFromSearch = search(searchPhrase);
+
+    	resultsAsStrings.removeAllElements();
+		for(Consumable c : consumablesFromSearch)
+		{
+			resultsAsStrings.add(c.getName());
+		}
+		
+		populateResults();
+    }
+    
+    public void populateResults()
+    {
+    	resultsList.setModel(new javax.swing.AbstractListModel() {
+        	Vector<String> strings = resultsAsStrings;
+        	public int getSize() { return strings.size(); }
+        	public Object getElementAt(int i) { return strings.get(i); }
+        });
+    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -57,7 +94,7 @@ public class GUISearch extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+    	
         searchTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         ratingSlider = new javax.swing.JSlider();
@@ -87,19 +124,7 @@ public class GUISearch extends javax.swing.JPanel {
         	{
         		if(e.getSource() == searchButton)
         		{
-        			List<Consumable> results = search(searchTextField.getText());
-        			
-        			final Vector<String> resultsAsStrings = new Vector<String>();
-        			for(Consumable c : results)
-        			{
-        				resultsAsStrings.add(c.getName());
-        			}
-        			
-        			resultsList.setModel(new javax.swing.AbstractListModel() {
-        	        	Vector<String> strings = resultsAsStrings;
-        	        	public int getSize() { return strings.size(); }
-        	        	public Object getElementAt(int i) { return strings.get(i); }
-        	        });
+        			updateSearch();
         		}
         	}
         });
@@ -111,7 +136,35 @@ public class GUISearch extends javax.swing.JPanel {
         ratingSlider.setPaintTicks(true);
         ratingSlider.setSnapToTicks(true);
 
+        
         setRatingButton.setText("Set Rating");
+        setRatingButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == setRatingButton)
+				{
+					int rating = ratingSlider.getValue();
+					System.out.println(rating);
+					
+					
+					ClientConsumable c = (ClientConsumable) consumablesFromSearch.get(resultsList.getSelectedIndex());
+					
+					System.out.println(c.getName());
+					
+					Recommendation r = new ClientRecommendation(DataAbstraction.getInstance().getUser(),c);
+					r.setRevisedRating(rating);
+					
+					//Reload the consumables list.
+					DataAbstraction.getInstance().getMainPane().myConsumables.populateConsumables();
+					
+					//Reload our recommendations list
+					//allRecommendations.remove(r);
+					//allRecommendations.add(r);
+					allRecommendations = DataAbstraction.getInstance().getUser().getRatedConsumables();
+					//updateSearch();
+				}
+			}	
+        });
+        
 
         ratingLabel.setText("Rating:");
 
@@ -124,7 +177,8 @@ public class GUISearch extends javax.swing.JPanel {
         });
         resultsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                resultsListValueChanged(evt);
+            	if(evt.getSource() == resultsList)
+            		resultsListValueChanged(evt);
             }
         });
         listScrollPane.setViewportView(resultsList);
@@ -179,11 +233,43 @@ public class GUISearch extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+
 private void resultsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_resultsListValueChanged
-// TODO add your handling code here:
+	if(evt.getSource() == this.resultsList && resultsList.getSelectedIndex() != -1)
+	{
+		Consumable selected = consumablesFromSearch.get(resultsList.getSelectedIndex());
+		
+		
+		
+		if(allRecommendations == null &&  DataAbstraction.getInstance() != null && DataAbstraction.getInstance().getUser() != null)
+		{
+			allRecommendations = DataAbstraction.getInstance().getUser().getRatedConsumables();
+		}
+		
+		//Check to see if the recommendation exists. If it does, use the revised rating. if it does not, use an initial rating. 
+		for(Recommendation r : allRecommendations)
+		{
+			if(r.getConsumable().getConsumableId() == selected.getConsumableId())
+			{
+				System.out.println("hjere" + selected.getName());
+				ratingSlider.setValue(r.getRevisedRating());
+				return;
+			}
+		}
+		
+		Rating r = new Rating(DataAbstraction.getInstance().getUser(), selected);
+		ratingSlider.setValue(r.getInitialRating());
+	}
 }//GEN-LAST:event_resultsListValueChanged
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+
+
+
+
+
+
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToConsumablesButton;
     private javax.swing.JScrollPane listScrollPane;
     private javax.swing.JLabel ratingLabel;
