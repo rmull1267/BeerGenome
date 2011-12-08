@@ -9,6 +9,7 @@ import core.Attribute;
 import core.AttributeRating;
 import core.Consumable;
 import core.LoginException;
+import core.Rating;
 import core.Recommendation;
 import core.User;
 import database.DBAbstraction;
@@ -185,7 +186,84 @@ public class ServerUser extends User {
 		return new ArrayList<Recommendation>();
 	}
 
+	@Override
+	public List<Consumable> getRecommendedConsumables(Consumable anyConsumable)
+	{
+		List<Consumable> allConsumables = anyConsumable.getAllConsumables();
+		
+		//Remove all rated consumables from allConsumables
+		List<Recommendation> ratedConsumables = this.getRatedConsumables();
+		int size =allConsumables.size();
+		for(int i = 0 ; i < size; i++)
+		{
+			for(Recommendation r : ratedConsumables)
+			{
+				if(r.getConsumable().getConsumableId() == allConsumables.get(i).getConsumableId())
+				{
+					allConsumables.remove(i);
+					size--; //TODO ?
+				}
+			}
+		}
+		
+		List<Rating> ratings = new ArrayList<Rating>();
+		int count = 0;
+		for(Consumable c : allConsumables)
+		{
+			if(count++ > 20)
+			{
+				break;
+			}
+			Rating r = new Rating(this, c);
+			ratings.add(r);
+		}
+		
+		
+		ratings = quickSort(ratings);
+		
+		List<Consumable> returnValue = new ArrayList<Consumable>();
+		for(int i = 0 ; i < ratings.size(); i++)
+		{
+			Rating r = ratings.get(i);
+			returnValue.add(r.getConsumable());
+		}
+		
+		return returnValue;
+	}
 	
+	private List<Rating> quickSort(List<Rating> list)
+	{
+		if(list.size() <= 1)
+		{
+			return list;
+		}
+		
+		Rating pivot = list.get(list.size() / 2);
+		list.remove(pivot);
+		
+		List<Rating> less = new ArrayList<Rating>();
+		List<Rating> more = new ArrayList<Rating>();
+		
+		int pivotInitialRating = pivot.getInitialRating();
+		for(Rating r : list)
+		{
+			if(r.getInitialRating() <= pivotInitialRating)
+			{
+				less.add(r);
+			}
+			else {
+				more.add(r);
+			}
+		}
+		
+		list = null; //free up some space.
+		less = quickSort(less);
+		more = quickSort(more);
+		more.add(pivot);
+		more.addAll(less);
+		
+		return less;
+	}
 
 	@Override
 	public void setRecommendationRating(Consumable consumable, int newRating) {

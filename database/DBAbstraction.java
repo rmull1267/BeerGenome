@@ -26,9 +26,12 @@ public interface DBAbstraction {
 	public void setConsumableName(int consumableId, String name) throws DBAbstractionException;
 	public void setConsumableType(int consumableId, String type) throws DBAbstractionException;
 	public List<Consumable> getAllConsumables() throws DBAbstractionException;
+	public List<Consumable> searchConsumable(String phrase) throws DBAbstractionException;
 	
 	/* ************* User Information ************* */
 	public int addUser(String username, String password) throws DBAbstractionException;
+	
+	
 	
 	/**
 	 * 

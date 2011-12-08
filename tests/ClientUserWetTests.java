@@ -13,7 +13,9 @@ import org.junit.Test;
 
 import core.Attribute;
 import core.AttributeRating;
+import core.Consumable;
 import core.LoginException;
+import core.Rating;
 import core.Recommendation;
 
 import server.Server;
@@ -24,6 +26,7 @@ import server.ServerRecommendation;
 import server.ServerUser;
 import client.Client;
 import client.ClientAttribute;
+import client.ClientConsumable;
 import client.ClientException;
 import client.ClientUser;
 
@@ -217,6 +220,56 @@ public class ClientUserWetTests {
 		if(!u.getPassword().equals(initialPassword + "1"))
 		{
 			fail("setPassword commit failed");
+		}
+	}
+	
+	@Test
+	public void getRecommendation()
+	{
+		ClientUser u = new ClientUser(1);
+		ClientConsumable cons = new ClientConsumable(1);
+		
+		//So that there is at least one unrated consumable...
+		try {
+			new ClientConsumable("unrated" + UUID.randomUUID().toString(), "type");
+		} catch (ClientException e) {
+			fail(e.toString());
+		}
+		
+		u.setRecommendationRating(cons, 5);
+		
+		List<Consumable> recommendations = u.getRecommendedConsumables(cons);
+		
+		
+		//This should not be the case least of all because of cons2
+		if(recommendations.size() == 0)
+		{
+			fail("got no recommendations.");
+		}
+		
+		StringBuffer failMessage = new StringBuffer();
+		failMessage.append("Sorted List: ");
+		for(Consumable c : recommendations)
+		{
+			Rating r = new Rating(u, c);
+			failMessage.append(r.getInitialRating());
+			failMessage.append(",");
+		}
+		
+		Rating lastRating = null;
+		for(Consumable c : recommendations)
+		{
+			if(lastRating == null)
+			{
+				lastRating = new Rating(u, c);
+				continue;
+			}
+			
+			Rating r = new Rating(u, c);
+			if(r.getInitialRating() > lastRating.getInitialRating())
+			{
+				fail("not sorted by consumable ids." + failMessage.toString());
+			}
 		}
 	}
 }

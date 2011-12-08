@@ -51,8 +51,13 @@ public class GetAllConsumablesMessage implements ProtocolMessage  {
 		int numParts = PrefixParser.getNumParts(response);
 		String[] parts = response.split(PrefixParser.DELIMITER);
 		
+		int consumables = 0;
 		for(int i = 1 ; i < numParts-1 ; i += 3)
 		{
+			//if(++consumables > 20)
+			//{
+			//	break;
+			//}
 			int consumableId = Integer.parseInt(parts[i]);
 			String consumableName = parts[i+1];
 			String consumableType = parts[i+2];

@@ -132,6 +132,16 @@ public class ServerUserWetTests {
 		}
 	}
 	
+	
+	@Test
+	public void getRecommendations()
+	{
+		User u = new ServerUser(1);
+		Consumable c = new ServerConsumable(1);
+		
+		u.getRecommendedConsumables(c);
+		
+	}
 	@Test
 	public void setRecommendationRating()
 	{

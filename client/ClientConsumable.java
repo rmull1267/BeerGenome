@@ -7,6 +7,7 @@ import protocol.CreateConsumableMessage;
 import protocol.GetAllConsumablesMessage;
 import protocol.GetConsumableMessage;
 import protocol.ProtocolException;
+import protocol.SearchMessage;
 import protocol.SetNameAndTypeOnConsumableMessage;
 import core.Consumable;
 import database.DBAbstractionException;
@@ -106,5 +107,23 @@ public class ClientConsumable extends Consumable
 	public void setID(int id)
 	{
 		this.setConsumableId(id);
+	}
+
+	@Override
+	public List<Consumable> search(String term) {
+		SearchMessage m = new SearchMessage(this, term);
+		
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return this.getSearchResults();
+		
 	}
 }

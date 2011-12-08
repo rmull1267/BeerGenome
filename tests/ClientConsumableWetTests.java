@@ -38,6 +38,35 @@ public class ClientConsumableWetTests
 	}
 	
 	@Test
+	public void search()
+	{
+		String name = UUID.randomUUID().toString();
+		
+		ClientConsumable cc = null;
+		try {
+			cc = new ClientConsumable(name,"type");
+		} catch (ClientException e) {
+			fail(e.getStackTrace().toString());
+		}
+		
+		List<Consumable> consumables = cc.search(name);
+		
+		if(consumables.size() != 1)
+		{
+			fail("too big or too small" + consumables.toString());
+		}
+		else
+		{
+			if(!consumables.get(0).getName().equals(name))
+			{
+				fail("search failed wrong one");
+			}
+		}
+		
+		
+	}
+	
+	@Test
 	public void nameAndTypeConstructor()
 	{
 		String name = UUID.randomUUID().toString();

@@ -113,4 +113,13 @@ public class ServerConsumable extends Consumable {
 		
 		return new ArrayList<Consumable>();
 	}
+	@Override
+	public List<Consumable> search(String term) {
+		try {
+			return SQLDatabase.getInstance().searchConsumable(term);
+		} catch (DBAbstractionException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

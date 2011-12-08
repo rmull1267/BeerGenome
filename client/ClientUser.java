@@ -2,6 +2,7 @@ package client;
 
 import protocol.GetAllRatedAttributesMessage;
 import protocol.GetRatedConsumablesMessage;
+import protocol.GetRecommendationsMessage;
 import protocol.LoginMessage;
 import protocol.ProtocolException;
 import protocol.SetAttributeRatingMessage;
@@ -255,5 +256,24 @@ public class ClientUser extends User {
 		{
 			e.printStackTrace();
 		}
+	}
+	@Override
+	public List<Consumable> getRecommendedConsumables(Consumable anyConsumable) {
+		ArrayList<Consumable> ret = new ArrayList<Consumable>();
+		
+		GetRecommendationsMessage m = new GetRecommendationsMessage(this,ret);
+		
+		try {
+			m.processResponse(Client.getInstance().sendMessage(m.generateMessage()));
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return ret;
+		
 	}
 }

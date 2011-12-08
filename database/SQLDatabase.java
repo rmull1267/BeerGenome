@@ -439,5 +439,9 @@ public class SQLDatabase implements DBAbstraction {
 	throws DBAbstractionException {
 		return SQLRecommendation.getInstance().getRevisedRating(userId, consumableId);
 	}
+	@Override
+	public List<Consumable> searchConsumable(String phrase) throws DBAbstractionException {
+		return SQLConsumable.getInstance().search(phrase);
+	}
 
 }

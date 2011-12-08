@@ -15,7 +15,9 @@ public abstract class Consumable implements ORMClass {
 	protected abstract void constructorHelper(String name, String type);
 	public abstract List<Consumable> getAllConsumables();
 	
-	
+	//search stuff 
+	private List<Consumable> searchResults;
+	public abstract List<Consumable> search(String term);
 	
 	//Getters and Setters for data items.
 	protected void setConsumableId(int consumableId) 
@@ -76,5 +78,11 @@ public abstract class Consumable implements ORMClass {
 		{
 			return false;
 		}
+	}
+	public void setSearchResults(List<Consumable> searchResults) {
+		this.searchResults = searchResults;
+	}
+	protected List<Consumable> getSearchResults() {
+		return searchResults;
 	}
 }

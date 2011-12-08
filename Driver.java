@@ -1,62 +1,30 @@
 import static org.junit.Assert.fail;
+import gui.GUISimple;
+import client.Client;
+import client.ClientException;
+import client.ClientUser;
+import server.Server;
 import server.ServerConsumable;
+import server.ServerException;
 import database.DBAbstractionException;
 import database.SQLDatabase;
 import database.SQLUserAttribute;
 
 
 public class Driver {
-	public static void main(String[] args)
+	static ClientUser user;
+	static Server 	  s;
+	public static void main(String[] args) throws ServerException, ClientException
 	{
-		SQLDatabase db = SQLDatabase.getInstance("/home/nfulton/Dropbox/softdev_project/BeerGenome/test.db");
-	
-		try {
-			SQLUserAttribute.getInstance().addAtrributeRating(1, 1, 4);
-			SQLUserAttribute.getInstance().editAtrributeRating(1, 1, 5);
-		} catch (DBAbstractionException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		s = new Server(2332);
+		s.startServer();
 		
+		Client.initializeClient(2332, "127.0.0.1");
 		
-		String name = "name";
-		String newName = "newname";
-		String type = "type";
-		String newType = "newtype";
-		
-		ServerConsumable c1 = new ServerConsumable(name, type);
-		
-		c1.setName(newName);
-		if(!c1.getName().equals(newName))
+		GUISimple.s = s;
+		while(true)
 		{
-			System.out.println("adsf");
+			GUISimple.menu();
 		}
-		else 
-		{
-			System.out.println(c1.getName());
-		}
-		
-		c1.setType(newType);
-		if(!c1.getType().equals(newType))
-		{
-			System.out.println("adsf");
-		}
-		else
-		{
-			System.out.println(c1.getType());
-		}
-		
-		try {
-			SQLDatabase.getInstance().close();
-		} catch (DBAbstractionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*
-		ServerConsumable consumable1 = new ServerConsumable("asdf","asdf3");
-		ServerConsumable consumable = new ServerConsumable(consumable1.getConsumableId());
-		System.out.println(consumable.getType());
-		System.out.println(consumable.getName());
-		*/		
 	}
 }

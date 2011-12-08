@@ -9,11 +9,13 @@ import protocol.GetConsumableMessage;
 import protocol.GetRatedConsumablesMessage;
 import protocol.CreateRecommendationMessage;
 import protocol.GetRecommendationMessage;
+import protocol.GetRecommendationsMessage;
 import protocol.ProtocolException;
 import protocol.GetAllRatedAttributesMessage;
 import protocol.LoginMessage;
 import protocol.RegisterMessage;
 import protocol.RenameAttributeMessage;
+import protocol.SearchMessage;
 import protocol.SetAttributeRatingMessage;
 import protocol.SetNameAndTypeOnConsumableMessage;
 import protocol.SetPasswordMessage;
@@ -135,6 +137,18 @@ public class PrefixParser {
 		{
 			SetRecommendationsRevisedRatingMessage m = 
 				new SetRecommendationsRevisedRatingMessage();
+			
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(SearchMessage.PREFIX))
+		{
+			SearchMessage m = new SearchMessage();
+			
+			return m.generateResponse(request);
+		}
+		else if(getPrefix(request).equals(GetRecommendationsMessage.PREFIX))
+		{
+			GetRecommendationsMessage m = new GetRecommendationsMessage();
 			
 			return m.generateResponse(request);
 		}
