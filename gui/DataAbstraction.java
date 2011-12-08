@@ -3,8 +3,10 @@ package gui;
 import java.util.List;
 
 import core.AttributeRating;
+import core.Consumable;
 import core.Recommendation;
 
+import client.ClientConsumable;
 import client.ClientUser;
 
 public class DataAbstraction 
@@ -52,5 +54,10 @@ public class DataAbstraction
 	public List< Recommendation > getUserRatedConsumables()
 	{
 		return user.getRatedConsumables();
+	}
+	
+	public List< Consumable > getRecommendedConsumable()
+	{
+		return user.getRecommendedConsumables(new ClientConsumable(1));	
 	}
 }

@@ -11,7 +11,7 @@ public class GUIMainTabbedPane extends JFrame
 	public GUIMyConsumables myConsumables;
 	public GUIMyAttributes myAttributes;
 	private GUISearch mySearch;
-	private GUIRecommendations myRecommendations;
+	public GUIRecommendations myRecommendations;
 	
 	private static ClientUser user;
 	

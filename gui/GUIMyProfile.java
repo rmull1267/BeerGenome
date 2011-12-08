@@ -44,11 +44,20 @@ public class GUIMyProfile extends javax.swing.JPanel {
 		} 
     	catch (LoginException e) 
     	{
-			e.printStackTrace();
+			//e.printStackTrace();
+    		if(isNewAccount == true)
+    		{
+    			JOptionPane.showMessageDialog(null, "Sorry mate, someone is using that name. Get a new one.");
+    		}
+    		else
+    		{
+    			JOptionPane.showMessageDialog(null, "Hey, you definitely need a valid password.");
+    		}
 		}
     	
     	mainTabbedPane.myAttributes.populateAttributes();
     	mainTabbedPane.myConsumables.populateConsumables();
+    	mainTabbedPane.myRecommendations.populateList();
     }
     //********************************************
 

@@ -1,5 +1,9 @@
 package gui;
 
+import java.util.Vector;
+
+import core.Consumable;
+
 import client.ClientUser;
 
 /*
@@ -24,6 +28,28 @@ public class GUIRecommendations extends javax.swing.JPanel {
         initComponents();
     }
 
+    //********************************************
+    public Vector<String> getUserRecommendations()
+    {
+    	Vector<String> retVec = new Vector<String>();
+    	
+    	for(Consumable c: DataAbstraction.getInstance().getRecommendedConsumable())
+    	{
+    		retVec.add(c.getName());
+    	}
+    	
+    	return retVec;
+    }
+    
+    public void populateList()
+    {
+    	resultsList.setModel(new javax.swing.AbstractListModel() {
+            Vector<String> strings = getUserRecommendations();
+            public int getSize() { return strings.size(); }
+            public Object getElementAt(int i) { return strings.get(i); }
+        });
+    }
+    //********************************************
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -45,11 +71,11 @@ public class GUIRecommendations extends javax.swing.JPanel {
 
         listScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        resultsList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+//        resultsList.setModel(new javax.swing.AbstractListModel() {
+//            Vector<String> strings = getUserRecommendations();
+//            public int getSize() { return strings.size(); }
+//            public Object getElementAt(int i) { return strings.get(i); }
+//        });
         resultsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 resultsListValueChanged(evt);

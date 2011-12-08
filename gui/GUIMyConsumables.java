@@ -36,7 +36,8 @@ public class GUIMyConsumables extends javax.swing.JPanel
     public Vector<String> getUserRatedConsumables()
     {
     	Vector<String> consumables = new Vector<String>();
-    	
+
+    
     	for(Recommendation r: DataAbstraction.getInstance().getUserRatedConsumables())
     	{
     		consumables.add(r.getConsumable().getName());
@@ -50,6 +51,7 @@ public class GUIMyConsumables extends javax.swing.JPanel
     	//TODO adding stuff to list happens here.
         consumablesList.setModel(new javax.swing.AbstractListModel() {
         	Vector<String> strings = getUserRatedConsumables();
+
         	public int getSize() { return strings.size(); }
         	public Object getElementAt(int i) { return strings.get(i); }
         });
