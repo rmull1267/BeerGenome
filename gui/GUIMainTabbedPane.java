@@ -6,20 +6,18 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import client.ClientUser;
 import database.DBAbstractionException;
 import database.SQLDatabase;
 
-public class GUIMainTabbedPane extends JFrame implements WindowListener
+public class GUIMainTabbedPane extends JFrame implements WindowListener, ChangeListener
 {
 	public GUIMyConsumables myConsumables;
-	public GUIMyAttributes myAttributes;
-<<<<<<< HEAD
-	private GUISearch mySearch;
-=======
+	public GUIMyAttributes myAttributes;;
 	public GUISearch mySearch;
->>>>>>> 56bfa903e75b05da3e3ae050313a8026820145d8
 	public GUIRecommendations myRecommendations;
 	
 	private static ClientUser user;
@@ -27,6 +25,7 @@ public class GUIMainTabbedPane extends JFrame implements WindowListener
 	public GUIMainTabbedPane()
 	{
 		JTabbedPane jtp = new JTabbedPane();
+		jtp.addChangeListener(this);
 		
 		initializeComponents();
 		
@@ -99,4 +98,18 @@ public class GUIMainTabbedPane extends JFrame implements WindowListener
 		// TODO Auto-generated method stub
 		
 	}
+
+	//Overriden so when we change between tabs, the selected tab refreshes
+	@Override
+	public void stateChanged(ChangeEvent e) 
+	{
+		if(e.getSource() == myConsumables)
+		{
+			myConsumables.populateConsumables();
+		}
+		else if(e.getSource() == mySearch)
+		{
+			mySearch.updateAllRecommendations();
+		}
+	}	
 }

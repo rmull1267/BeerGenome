@@ -86,6 +86,13 @@ public class GUISearch extends javax.swing.JPanel {
         });
     }
     
+    public void updateAllRecommendations()
+    {
+    	allRecommendations = DataAbstraction.getInstance().getUser().getRatedConsumables();
+    }
+    //********************************************
+
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -150,8 +157,8 @@ public class GUISearch extends javax.swing.JPanel {
 					
 					System.out.println(c.getName());
 					
-					Recommendation r = new ClientRecommendation(DataAbstraction.getInstance().getUser(),c);
-					r.setRevisedRating(rating);
+					Recommendation r = new ClientRecommendation(DataAbstraction.getInstance().getUser(), c, rating);
+					//r.setRevisedRating(rating);
 					
 					//Reload the consumables list.
 					DataAbstraction.getInstance().getMainPane().myConsumables.populateConsumables();
@@ -159,8 +166,9 @@ public class GUISearch extends javax.swing.JPanel {
 					//Reload our recommendations list
 					//allRecommendations.remove(r);
 					//allRecommendations.add(r);
-					allRecommendations = DataAbstraction.getInstance().getUser().getRatedConsumables();
+					//allRecommendations = DataAbstraction.getInstance().getUser().getRatedConsumables();
 					//updateSearch();
+					updateAllRecommendations();
 				}
 			}	
         });
