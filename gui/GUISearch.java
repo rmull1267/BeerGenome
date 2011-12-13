@@ -157,7 +157,8 @@ public class GUISearch extends javax.swing.JPanel {
 					
 					System.out.println(c.getName());
 					
-					Recommendation r = new ClientRecommendation(DataAbstraction.getInstance().getUser(), c, rating);
+					DataAbstraction.getInstance().getUser().setRecommendationRating(c, rating);
+					//Recommendation r = new ClientRecommendation(DataAbstraction.getInstance().getUser(), c, rating);
 					//r.setRevisedRating(rating);
 					
 					//Reload the consumables list.
