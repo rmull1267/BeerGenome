@@ -110,6 +110,7 @@ public class GUIMainTabbedPane extends JFrame implements WindowListener, ChangeL
 		else if(e.getSource() == mySearch)
 		{
 			mySearch.updateAllRecommendations();
+			DataAbstraction.getInstance().getMainPane().myConsumables.populateConsumables();
 		}
 	}	
 }
