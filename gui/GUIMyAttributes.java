@@ -78,6 +78,7 @@ public class GUIMyAttributes extends javax.swing.JPanel {
         setRatingButton = new javax.swing.JButton();
         attributesLabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        newAttributeButton = new javax.swing.JButton();
 
         listScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -119,6 +120,16 @@ public class GUIMyAttributes extends javax.swing.JPanel {
         });
 
         attributesLabel.setText("My Attributes");
+        
+        newAttributeButton.setText("Add New Attribute");
+        newAttributeButton.addActionListener(new ActionListener()
+        {
+        	public void actionPerformed(ActionEvent e)
+        	{
+        		GUIAddNewAttribute newAttribute = new GUIAddNewAttribute();
+        	}
+        });
+        
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -127,7 +138,7 @@ public class GUIMyAttributes extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(attributesLabel)
+                    .addComponent(newAttributeButton)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(listScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -137,16 +148,11 @@ public class GUIMyAttributes extends javax.swing.JPanel {
                                 .addComponent(ratingLabel))
                             .addComponent(setRatingButton))))
                 .addContainerGap())
-            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(attributesLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
@@ -158,7 +164,9 @@ public class GUIMyAttributes extends javax.swing.JPanel {
                         .addComponent(ratingSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(setRatingButton)))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(newAttributeButton)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -182,6 +190,7 @@ public class GUIMyAttributes extends javax.swing.JPanel {
 
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JButton newAttributeButton;
     private javax.swing.JLabel attributesLabel;
     private javax.swing.JList attributesList;
     private javax.swing.JSeparator jSeparator1;

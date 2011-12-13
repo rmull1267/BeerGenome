@@ -1,4 +1,12 @@
 package gui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import core.Attribute;
+import core.AttributeRating;
+
+import client.ClientAttribute;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -21,6 +29,7 @@ public class GUIAddNewAttribute extends javax.swing.JFrame {
         initComponents();
         
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setSize(250, 150);
         setVisible(true);
     }
 
@@ -33,14 +42,26 @@ public class GUIAddNewAttribute extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        attributeComboBox = new javax.swing.JComboBox();
         addAttributeButton = new javax.swing.JButton();
+        attributeLabel = new javax.swing.JLabel();
+        attributeTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        attributeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         addAttributeButton.setText("Add Attribute");
+        addAttributeButton.addActionListener(new ActionListener()
+        {
+        	public void actionPerformed(ActionEvent e)
+        	{
+        		ClientAttribute newAtt = new ClientAttribute(attributeTextField.getText());
+        		
+        		DataAbstraction.getInstance().getUser().setAttributeRating(newAtt.getAttributeId(), 0);
+        		
+        		DataAbstraction.getInstance().getMainPane().myAttributes.populateAttributes();
+        	}
+        });
+
+        attributeLabel.setText("Attribute:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -49,21 +70,25 @@ public class GUIAddNewAttribute extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(attributeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addComponent(attributeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(attributeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
+                        .addGap(65, 65, 65)
                         .addComponent(addAttributeButton)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(attributeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(attributeLabel)
+                    .addComponent(attributeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(addAttributeButton)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -71,6 +96,7 @@ public class GUIAddNewAttribute extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAttributeButton;
-    private javax.swing.JComboBox attributeComboBox;
+    private javax.swing.JLabel attributeLabel;
+    private javax.swing.JTextField attributeTextField;
     // End of variables declaration//GEN-END:variables
 }

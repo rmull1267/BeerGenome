@@ -111,6 +111,7 @@ public class GUIMainTabbedPane extends JFrame implements WindowListener, ChangeL
 		{
 			mySearch.updateAllRecommendations();
 			DataAbstraction.getInstance().getMainPane().myConsumables.populateConsumables();
+			
 		}
 	}	
 }
