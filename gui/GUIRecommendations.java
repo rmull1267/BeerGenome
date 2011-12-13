@@ -1,9 +1,13 @@
 package gui;
 
+import java.util.List;
 import java.util.Vector;
+
+import javax.swing.JOptionPane;
 
 import core.Consumable;
 
+import client.ClientConsumable;
 import client.ClientUser;
 
 /*
@@ -32,11 +36,21 @@ public class GUIRecommendations extends javax.swing.JPanel {
     public Vector<String> getUserRecommendations()
     {
     	Vector<String> retVec = new Vector<String>();
+
+    	Consumable c1 = new ClientConsumable(1);
     	
-    	for(Consumable c: DataAbstraction.getInstance().getRecommendedConsumable())
+    	List<Consumable> recommendations = DataAbstraction.getInstance().getUser().getRecommendedConsumables(c1);
+    	
+    	if(recommendations.size() == 0) {
+    		JOptionPane.showMessageDialog(null, "We've no recommendations for you at the moment.");
+    	}
+    	
+    	for(Consumable c : recommendations)
     	{
     		retVec.add(c.getName());
     	}
+    	
+    	
     	
     	return retVec;
     }

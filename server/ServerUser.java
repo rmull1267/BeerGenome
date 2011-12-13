@@ -193,6 +193,9 @@ public class ServerUser extends User {
 		
 		//Remove all rated consumables from allConsumables
 		List<Recommendation> ratedConsumables = this.getRatedConsumables();
+		
+		ArrayList<Consumable> toRemove = new ArrayList<Consumable>();
+		
 		int size =allConsumables.size();
 		for(int i = 0 ; i < size; i++)
 		{
@@ -200,11 +203,12 @@ public class ServerUser extends User {
 			{
 				if(r.getConsumable().getConsumableId() == allConsumables.get(i).getConsumableId())
 				{
-					allConsumables.remove(i);
-					size--; //TODO ?
+					toRemove.add(allConsumables.get(i));
 				}
 			}
 		}
+		allConsumables.removeAll(toRemove);
+		
 		
 		List<Rating> ratings = new ArrayList<Rating>();
 		int count = 0;
@@ -218,7 +222,6 @@ public class ServerUser extends User {
 			ratings.add(r);
 		}
 		
-		
 		ratings = quickSort(ratings);
 		
 		List<Consumable> returnValue = new ArrayList<Consumable>();
@@ -227,6 +230,9 @@ public class ServerUser extends User {
 			Rating r = ratings.get(i);
 			returnValue.add(r.getConsumable());
 		}
+		
+		System.err.println(ratings.size());
+		System.err.println(returnValue.size());
 		
 		return returnValue;
 	}
@@ -262,7 +268,7 @@ public class ServerUser extends User {
 		more.add(pivot);
 		more.addAll(less);
 		
-		return less;
+		return more;
 	}
 
 	@Override
