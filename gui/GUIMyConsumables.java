@@ -120,15 +120,19 @@ public class GUIMyConsumables extends javax.swing.JPanel
         ratingLabel.setText("Rating:");
 
         setRatingButton.setText("Set Rating");
-        setRatingButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+        setRatingButton.addActionListener(new ActionListener() 
+        {
+			public void actionPerformed(ActionEvent e) 
+			{
 				if(e.getSource() == setRatingButton)
 				{
 					int rating = ratingSlider.getValue();
 					Recommendation selectedConsumableRating = getRatedConsumables().get(consumablesList.getSelectedIndex());
 					selectedConsumableRating.setRevisedRating(rating);
 					
-					//DataAbstraction.getInstance().getMainPane().mySearch.updateSearch();
+					
+					DataAbstraction.getInstance().getMainPane().mySearch.populateResults();
+					DataAbstraction.getInstance().getMainPane().mySearch.updateAllRecommendations();
 				}
 			}	
         });

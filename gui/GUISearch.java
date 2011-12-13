@@ -33,7 +33,10 @@ public class GUISearch extends javax.swing.JPanel {
 
 	private List<Consumable> consumablesFromSearch;
 	private List<Recommendation> allRecommendations;
-	private final Vector<String> resultsAsStrings  = new Vector<String>();;
+	private final Vector<String> resultsAsStrings  = new Vector<String>();
+	
+	public static String searchPhrase;
+	
 	
 	
     /** Creates new form GUISearch */
@@ -45,6 +48,8 @@ public class GUISearch extends javax.swing.JPanel {
     //********************************************
     public List<Consumable> search(String searchPhrase)
     {
+    	this.searchPhrase = searchPhrase;
+    	
     	ClientConsumable c = new ClientConsumable(1);	
     	return c.search(searchPhrase);
     }

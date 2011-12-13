@@ -25,15 +25,32 @@ public class GUIMainTabbedPane extends JFrame implements WindowListener, ChangeL
 	public GUIMainTabbedPane()
 	{
 		JTabbedPane jtp = new JTabbedPane();
-		jtp.addChangeListener(this);
+		jtp.addChangeListener(new ChangeListener()
+		{
+			public void stateChanged(ChangeEvent e)
+			{
+				if(e.getSource() == myConsumables)
+				{
+					myConsumables.populateConsumables();
+				}
+				else if(e.getSource() == mySearch)
+				{
+					System.out.println("Search Tab");
+					mySearch.updateAllRecommendations();
+					DataAbstraction.getInstance().getMainPane().myConsumables.populateConsumables();
+					
+					mySearch.search(mySearch.searchPhrase);			
+				}
+			}
+		});
 		
 		initializeComponents();
 		
-		jtp.add("My Profile", new GUIMyProfile(this));
-		jtp.add("My Consumables", myConsumables);
-		jtp.add("My Attributes", myAttributes);
-		jtp.add("Search", mySearch);
-		jtp.add("Recommendations", myRecommendations);
+		jtp.addTab("My Profile", new GUIMyProfile(this));
+		jtp.addTab("My Consumables", myConsumables);
+		jtp.addTab("My Attributes", myAttributes);
+		jtp.addTab("Search", mySearch);
+		jtp.addTab("Recommendations", myRecommendations);
 		
 		add(jtp);
 		setSize(450, 350);
@@ -109,9 +126,11 @@ public class GUIMainTabbedPane extends JFrame implements WindowListener, ChangeL
 		}
 		else if(e.getSource() == mySearch)
 		{
+			System.out.println("Search Tab");
 			mySearch.updateAllRecommendations();
 			DataAbstraction.getInstance().getMainPane().myConsumables.populateConsumables();
 			
+			mySearch.search(mySearch.searchPhrase);			
 		}
 	}	
 }
